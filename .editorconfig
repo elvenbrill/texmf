@@ -1,0 +1,21 @@
+# Editor configuration, see https://editorconfig.org
+# EditorConfig properties: https://github.com/editorconfig/editorconfig/wiki/EditorConfig-Properties
+
+root = true
+
+[*]
+charset = utf-8
+end_of_line = lf
+indent_size = 2
+indent_style = space
+insert_final_newline = true
+max_line_length = 80
+trim_trailing_whitespace = true
+quote_type = double
+
+[Makefile]
+indent_style = tab
+
+[*.py]
+indent_style = space
+indent_size = 4
