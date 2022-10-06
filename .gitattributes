@@ -121,6 +121,7 @@ makefile          text
 # Executables
 *.exe             binary
 *.pyc             binary
+*.tec             binary
 
 # RC files (like .babelrc)
 *.*rc             text
