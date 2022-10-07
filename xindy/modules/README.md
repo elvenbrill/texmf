@@ -127,7 +127,7 @@ function-key shortcut.
 
 I'm now getting results that look like this, which is what I was after:
 
-![xindy-iast](https://1.bp.blogspot.com/-wrANp6AWRag/V5cs2YGf3FI/AAAAAAAAhOw/BFdrWQDUd0klQZzBeXfWq--iirZteaeyACLcB/s1600/Screenshot%2Bfrom%2B2016-07-26%2B11-26-25.png)
+![xindy-iast](https://raw.githubusercontent.com/elvenbrill/assets/6ab2ceaaccac30d97e99481c3223e50eb877e80d/texmf/xindy-iast.png)
 
 I'm sure that all this could be done more elegantly and completely. In the
 longer run, I hope a successor to IAST.xdy might take its place alongside all
