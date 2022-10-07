@@ -1,0 +1,289 @@
+;   This file was created by <@elvendrim> using TECkitMappingEditorU v4.0.0.0
+;   Conversion Type = Unicode_to_from_Unicode
+
+LHSName                 "ITRANS"
+RHSName                 "Unicode IAST"
+LHSDescription          "ITRANS input method for Unicode Roman (IAST)"
+Version                 "1.0"
+Contact                 "elvendrim@gmail.com"
+
+Define zwj U+200D     ; zero width joiner
+Define zwn U+200C     ; zero width nonjoiner
+Define lcb U+007B     ; {
+Define rcb U+007D     ; }
+Define dot U+002E     ; .
+Define tlde U+007E    ; ~
+Define cret U+005E    ; ^
+
+Define a U+0061
+Define A U+0041
+Define b U+0062
+Define c U+0063
+Define C U+0043
+Define d U+0064
+Define D U+0044
+Define e U+0065
+Define E U+0045
+Define g U+0067
+Define G U+0047
+Define h U+0068
+Define H U+0048
+Define i U+0069
+Define I U+0049
+Define j U+006A
+Define J U+004A
+Define k U+006B
+Define l U+006C
+Define L U+004C
+Define m U+006D
+Define M U+004D
+Define n U+006E
+Define N U+004E
+Define o U+006F
+Define O U+004F
+Define p U+0070
+Define r U+0072
+Define R U+0052
+Define s U+0073
+Define S U+0053
+Define t U+0074
+Define T U+0054
+Define u U+0075
+Define U U+0055
+Define v U+0076
+Define w U+0077
+Define x U+0078
+Define y U+0079
+Define Y U+0059
+Define z U+007A
+
+Define asvara	a
+Define Asvara	U+0101    ; ā
+Define isvara	i
+Define Isvara	U+012B    ; ī
+Define usvara	u
+Define Usvara	U+016B    ; ū
+
+Define rvoc	  U+1E5B    ; ṛ
+Define Rvoc	  U+1E5D    ; ṝ
+Define lvoc	  U+1E37    ; ḷ
+Define Lvoc   U+1E38    ; ḹ
+
+Define esvara  e
+Define aisvara a i
+Define osvara  o
+Define ausvara a u
+
+Define mdot     U+1E43       ; ṃ
+Define ndot     U+1E47       ; ṇ
+Define ndota    U+1E45       ; ṅ
+Define ntlde    U+00F1       ; ñ
+Define tdot     U+1E6D       ; ṭ
+Define ddot     U+1E0D       ; ḍ
+Define sacute   U+015B       ; ś
+Define sdot     U+1E63       ; ṣ
+Define ldot     U+1E37       ; ḷ
+Define lbelow   U+1E3B       ; ḻ
+Define cbindu   U+0310       ; ̐ 
+Define visarga  U+1E25       ; ḥ
+Define avagraha U+0027       ; '
+
+Define ka  k
+Define kha k h
+Define ga  g
+Define gha g h
+Define Ga  ndota
+
+Define cha c
+Define Cha c h
+Define ja  j
+Define jha j h
+Define Ja  ntlde
+
+Define Ta  tdot
+Define Tha tdot h
+Define Da  ddot
+Define Dha ddot h
+Define Na  ndot
+
+Define ta  t
+Define tha t h
+Define da  d
+Define dha d h
+Define na  n
+
+Define pa  p
+Define pha p h
+Define ba  b
+Define bha b h
+Define ma  m
+
+Define ya y
+Define ra r
+Define la l
+Define va v
+Define wa v
+
+Define sha sacute
+Define Sha sdot
+Define sa  s
+Define ha  h
+
+Define om   U+006F U+1E43 ; oṃ
+Define rla  U+1E37        ; ḷ
+Define ksha U+006B U+1E63 ; kṣ
+
+pass(Unicode)
+
+a   > asvara
+a a > Asvara
+A   > Asvara
+i   > isvara
+i i > Isvara
+I   > Isvara
+u   > usvara
+u u > Usvara
+U   > Usvara
+
+R R i    > rvoc
+R cret i > rvoc
+R R I    > Rvoc
+R cret I > Rvoc
+L L i    > lvoc
+L cret i > lvoc
+L L I    > Lvoc
+L cret I > Lvoc
+
+e   > esvara
+e e > esvara
+E   > esvara
+a i > aisvara
+o   > osvara
+o o > osvara
+O   > osvara
+a u > ausvara
+
+M     > mdot
+dot m > mdot
+dot n > mdot
+H     > visarga
+dot N > m cbindu
+dot a > avagraha
+dot a lcb rcb > avagraha
+
+k            > ka
+k dot h      > ka
+k h          > kha
+k h dot h    > kha
+g            > ga
+g dot h      > ga
+g h          > gha
+g h dot h    > gha
+tlde N       > Ga
+tlde N dot h > Ga
+N cret       > Ga
+N cret dot h > Ga
+N tlde       > Ga
+G G          > Ga
+c h          > cha
+c h dot h    > cha
+c h h        > Cha
+c h h dot h  > Cha
+C h          > Cha
+C h dot h    > Cha
+j            > ja
+j dot h      > ja
+j h          > jha
+j h dot h    > jha
+tlde n       > Ja
+tlde n dot h > Ja
+J N          > Ja
+T            > Ta
+T dot h      > Ta
+T h          > Tha
+T h dot h    > Tha
+D            > Da
+D dot h      > Da
+D h          > Dha
+D h dot h    > Dha
+N            > Na
+N dot h      > Na
+t            > ta
+t dot h      > ta
+t h          > tha
+t h dot h    > tha
+d            > da
+d dot h      > da
+d h          > dha
+d h dot h    > dha
+n            > na
+n dot h      > na
+p            > pa
+p dot h      > pa
+p h          > pha
+p h dot h    > pha
+b            > ba
+b dot h      > ba
+b h          > bha
+b h dot h    > bha
+m            > ma
+m dot h      > ma
+y            > ya
+y dot h      > ya
+r            > ra
+r dot h      > ra
+l            > la
+l dot h      > la
+v            > va
+v dot h      > va
+w            > wa
+w dot h      > wa
+s h          > sha
+s h dot h    > sha
+s h h        > Sha
+s h h dot h  > Sha
+S h          > Sha
+S h dot h    > Sha
+s            > sa
+s dot h      > sa
+h            > ha
+h dot h      > ha
+
+; Misc:
+L           > lbelow
+O M         > om
+A U M       > om
+x           > ksha
+x dot h     > ksha
+k S h       > ksha
+k S h dot h > ksha
+k S         > ksha
+k S dot h   > ksha
+S           > Sha
+S dot h     > Sha
+G Y         > ja Ja
+j tlde n    > ja Ja
+d n y       > ja Ja
+lcb rcb     > zwn
+
+; Numerals:
+U+0030 > U+0030
+U+0031 > U+0031
+U+0032 > U+0032
+U+0033 > U+0033
+U+0034 > U+0034
+U+0035 > U+0035
+U+0036 > U+0036
+U+0037 > U+0037
+U+0038 > U+0038
+U+0039 > U+0039
+
+; TeX:
+U+002D U+002D        > U+2013 ; en-dash "–"
+U+002D U+002D U+002D > U+2014 ; em-dash "—"
+
+U+0060        > U+2018 ; left single quote "‘"
+U+0060 U+0060 > U+201C ; left double quote "“"
+U+0027        > U+2019 ; right single quote "’"
+U+0027 U+0027 > U+201D ; right double quote "”"
+U+0022        > U+201D ; right double quote "”"
