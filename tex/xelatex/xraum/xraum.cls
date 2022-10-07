@@ -1,7 +1,7 @@
 % Class: xraum
 % Version: 0.01-2020/11/07
 % License: LPPL 1.3c
-% GitHub Repo: https://github.com/elvendrim/xraum/
+% GitHub Repo: https://github.com/elvenbrill/texmf/
 %
 % This Work may be distributed and/or modified under the
 % conditions of the LaTeX Project Public License, in its
