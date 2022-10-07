@@ -5,7 +5,7 @@
 --       AUTHOR:  Herbert Voß
 --      LICENSE:  LPPL1.3
 --
--- $Id: xindex-cfg.lua 12 2022-10-07 13:25:32Z elvenbrill $
+-- $Id: xindex-cfg.lua 12 2021-08-15 09:28:32Z hvoss $
 -----------------------------------------------------------------------
 
 if not modules then modules = { } end modules ['xindex-cfg'] = {
@@ -16,13 +16,13 @@ copyright = "Herbert Voss",
   license = "LPPL 1.3"
 }
 
-itemPageDelimiter = ""      -- Hello: 14
-compressPages     = true    -- something like 12--15, instead of 12,13,14,15. the |( ... |) syntax is still valid
+itemPageDelimiter = ":"     -- Hello: 14
+compressPages     = true    -- something like 12--15, instead of 12,13,14,15. the |( … |) syntax is still valid
 fCompress	        = true    -- 3f -> page 3, 4 and 3ff -> page 3, 4, 5
 minCompress       = 3       -- 14--17 or
 rangeSymbol       = "--"
 numericPage       = true    -- for non numerical pagenumbers, like "VI-17"
-sublabels         = {"", "", "--\\,", "---\\,"} -- for the (sub(sub(sub-items  first one is for item
+sublabels         = {"", "-\\,", "--\\,", "---\\,"} -- for the (sub(sub(sub-items  first one is for item
 pageNoPrefixDel   = ""      -- a delimiter for page numbers like "VI-17"  -- not used !!!
 indexOpening      = ""      -- commands after envStart
 idxnewletter      = "\\textbf"  -- Only valid if -n is not set
@@ -46,8 +46,8 @@ alphabet_lower = { --   for sorting
 { 'i', 'í', 'ì', 'î', 'ï', 'ī' },
 { 'j' },
 { 'k' },
-{ 'l', 'ḷ', 'ḹ' },
-{ 'm', 'ṃ', 'ṁ' },
+{ 'l', 'ḷ' },
+{ 'm', 'ṃ' },
 { 'n', 'ñ', 'ṇ', 'ṅ' },
 { 'o', 'ó', 'ò', 'ö', 'ô', 'ø', 'œ', 'ø', 'ō' },
 { 'p' },
@@ -75,8 +75,8 @@ alphabet_upper = { -- for sorting
 { 'I', 'Í', 'Ì', 'Ï', 'Î', 'Ī' },
 { 'J' },
 { 'K' },
-{ 'L', 'Ḷ', 'Ḹ' },
-{ 'M', 'Ṃ', 'Ṁ' },
+{ 'L', 'Ḷ' },
+{ 'M', 'Ṃ' },
 { 'N', 'Ñ', 'Ṇ', 'Ṅ' },
 { 'O', 'Ó', 'Ò', 'Ö', 'Ø','Œ', 'Ø', 'Ô', 'Ō' },
 { 'P' },
@@ -92,4 +92,4 @@ alphabet_upper = { -- for sorting
 { 'Z', 'Ž' }
 }
 
--- Elvenbrill, October 2022.
+-- @elvenbrill, Oct 2022.
