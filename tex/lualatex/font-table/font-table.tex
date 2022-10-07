@@ -1,0 +1,25 @@
+% arara: lualatex
+% arara: lualatex
+% arara: lualatex
+\documentclass[12pt]{article}
+\usepackage{fontspec}
+\usepackage{array}
+\usepackage{longtable}
+\usepackage{latexcolors}
+\usepackage{luacode}
+\luadirect{require("font-table.lua")}
+\setmainfont{Brill}
+\title{\textsc{Brill}}
+\author{Font Table}
+\date{\relax}
+
+\begin{document}
+\maketitle
+\color{cinnamon}
+\begin{longtable}{>{\color{gray}\ttfamily\footnotesize}r|
+  *{10}{>{\color{black}}p{1.5em}|}}
+  \cline{2-11}
+  \endhead
+  \luadirect{ft.print_glyphs(10,65463)} \\ \cline{2-11}
+\end{longtable}
+\end{document}
