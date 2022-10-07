@@ -1,0 +1,1235 @@
+\documentclass{article}
+\usepackage[table]{xcolor}
+\pagecolor{brown!3}
+\usepackage{graphicx}
+\usepackage{fontspec}
+\usepackage{pgffor}
+\usepackage{luacode}
+\usepackage{etoolbox}
+\usepackage{multicol}
+\newtoggle{printastring}
+\setlength{\columnsep}{0.3cm} \setlength{\columnseprule}{1pt}
+
+\newfontface\fcyrillic{Noto Serif}
+
+%===============================
+\begin{luacode}
+  function compiledon()
+    tex.sprint(os.date("compiled on --- %A at %X " ) )
+  end
+\end{luacode}
+\newcommand{\compiledon}{\directlua{compiledon()}}
+%===============================
+
+\newcommand\mypathname{C:/Windows/Fonts/}
+\newcommand\myext{.ttf}
+\newcommand\myfilename{xxx}
+\newcommand\myfont{\mypathname\myfilename\myext}
+
+\newcommand\fstartrange{97}
+\newcommand\fendrange{122}
+
+\begin{luacode}
+	function printmysample()
+--	tex.sprint(myfont)
+local f = fontloader.open(myfont)
+local glyphs = {}
+for i = 0, f.glyphmax - 1 do
+   local g = f.glyphs[i]
+   if g then
+       table.insert(glyphs, {name = g.name, unicode = g.unicode})
+   end
+end
+table.sort(glyphs, function (a,b) return (a.unicode < b.unicode) end)
+--   tex.sprint('Sample\\\\')
+tex.sprint(f.glyphmax .. ' glyphs\\\\')
+for i = 1, #glyphs do
+   if (glyphs[i].unicode > 0) then
+      if (glyphs[i].unicode >= mystartrange ) then
+      if (glyphs[i].unicode <= myendrange ) then
+	   			tex.sprint("{\\forn\\char" .. glyphs[i].unicode .. "}\\ ")
+		   end
+		   end
+   end
+end
+fontloader.close(f)
+
+	end
+\end{luacode}
+
+\newcommand\doprintmysample{\directlua{printmysample()}}
+
+%%\begin{luacode}
+%%	function printmyblock(blockstart,blockfinish)
+%%--	tex.sprint(myfont)
+%%local f = fontloader.open(myfont)
+%%local glyphs = {}
+%%for i = 0, f.glyphmax - 1 do
+%%   local g = f.glyphs[i]
+%%   if g then
+%%       table.insert(glyphs, {name = g.name, unicode = g.unicode})
+%%   end
+%%end
+%%table.sort(glyphs, function (a,b) return (a.unicode < b.unicode) end)
+%%--   tex.sprint('Sample\\\\')
+%%--   tex.sprint(f.glyphmax .. ' glyphs\\\\')
+%%for i = 1, #glyphs do
+%%   if (glyphs[i].unicode > 0) then
+%%      if (glyphs[i].unicode >= blockstart ) then
+%%      if (glyphs[i].unicode <= blockmyend ) then
+%%	   			tex.sprint("{\\forn\\char" .. glyphs[i].unicode .. "}\\ ")
+%%		   end
+%%		   end
+%%   end
+%%end
+%%fontloader.close(f)
+%%
+%%	end
+%%\end{luacode}
+
+\begin{luacode}
+	function printmyblockb(blockstart,blockfinish)
+for i = blockstart, blockfinish do
+	   			tex.sprint("{\\iffontchar\\font" .. i .. "\\relax{\\noindent\\usefont{T1}{lmr}{m}{n}\\tiny " .. i .. "=}\\huge\\color{blue}\\hfill\\char" .. i .. "\\hfill\\ \\par \\fi}")
+	   			-- tex.sprint("{ " .. i .. "\\ \\char" .. i .. "}\\ ")
+	   			end
+	end
+\end{luacode}
+
+\begin{luacode}
+	function printmyblockc(blockstart,blockfinish)
+for i = blockstart, blockfinish do
+		   			tex.sprint("{\\iffontchar\\font" .. i .. "\\relax\\centering\\noindent\\huge\\color{blue}\\char" .. i .. " \\hfill { \\usefont{T1}{lmr}{m}{n}\\tiny " .. i .. "} \\par \\fi}")
+	   			-- tex.sprint("{ " .. i .. "\\ \\char" .. i .. "}\\ ")
+	   			end
+	end
+\end{luacode}
+
+\newcommand\plonkchard[1]{%
+\ifboolexpr{ test { \iftoggle{printastring}}}
+{\iffontchar\font#1\char#1 \fi}
+{\iffontchar\font#1\relax\centering\noindent%
+\begin{tabular}{cc}
+\huge\color{blue}\char#1 \vspace{2pt}\\
+\rowcolor{blue!5}\usefont{T1}{lmr}{m}{n}\tiny #1\\
+\hline
+\end{tabular}\par\smallskip\fi}
+}
+
+\begin{luacode}
+	function printmyblockd(blockstart,blockfinish)
+for i = blockstart, blockfinish do
+		   			tex.sprint("\\plonkchard{" .. i .. "}")
+	   			-- tex.sprint("{ " .. i .. "\\ \\char" .. i .. "}\\ ")
+	   			end
+	end
+\end{luacode}
+
+%--------------
+%\newcommand\plonkchardr[1]{%
+%{\iffontchar\font#1\relax\centering\noindent%
+%\begin{tabular}{cc}
+%\huge\color{blue}\rotatebox{-90}{\char#1} \vspace{2pt}\\
+%\rowcolor{blue!5}\usefont{T1}{lmr}{m}{n}\tiny #1\\
+%\hline
+%\end{tabular}\par\smallskip\fi}
+%}
+
+%--------------
+\newcommand\plonkchardr[1]{%
+{\iffontchar\font#1\relax\centering\noindent%
+\begin{tabular}{cc}
+\huge\color{blue}\char#1 \vspace{2pt}\\
+\rowcolor{blue!5}\usefont{T1}{lmr}{m}{n}\tiny #1\vspace{5pt}\\
+\hline
+\end{tabular}\par\smallskip\fi}
+}
+
+\begin{luacode}
+	function printmyblockdr(blockstart,blockfinish)
+for i = blockstart, blockfinish do
+		   			tex.sprint("\\plonkchardr{" .. i .. "}")
+	   			-- tex.sprint("{ " .. i .. "\\ \\char" .. i .. "}\\ ")
+	   			end
+	end
+\end{luacode}
+
+\newcommand\doprintmyblock[2]{%
+\ifboolexpr{ test { \iftoggle{printastring}}}
+{\directlua{printmyblockd(#1,#2)}}
+{\directlua{printmyblockdr(#1,#2)}}}
+%{\directlua{printmyblockdr(#1,#2)}}
+
+\begin{luacode}
+function printmytable()
+local f = fontloader.open(myfont)
+local glyphs = {}
+for i = 0, f.glyphmax - 1 do
+   local g = f.glyphs[i]
+   if g then
+       table.insert(glyphs, {name = g.name, unicode = g.unicode})
+   end
+end
+table.sort(glyphs, function (a,b) return (a.unicode < b.unicode) end)
+for i = 1, #glyphs do
+   if (glyphs[i].unicode > 0) then
+   tex.sprint(glyphs[i].unicode .. ": ")
+   tex.sprint("{\\huge\\color{blue}\\forn\\char" .. glyphs[i].unicode .. "}");
+   tex.print("\\ {\\scriptsize=")
+   tex.print(-2, glyphs[i].name)
+   tex.sprint('}\\\\')
+   end
+end
+fontloader.close(f)
+end
+\end{luacode}
+
+\newcommand\doprintmytable{\directlua{printmytable()}}
+
+\newcommand\printmyfont{%
+%Use directlua inside a macro :
+%https://tex.stackexchange.com/questions/258483/good-lua-code-in-tex-doesnt-work-in-sty
+%%The luacode environment works by changing catcode codes to make in the input easier to pass to Lua. That can't work inside a macro: the input is already tokenized. In that sense luacode is similar to a verbatim environment.
+
+%https://tex.stackexchange.com/questions/308261/help-integrating-some-lua-code-into-a-luatex-document
+%::use lua functions instead
+%%print inline sample
+\directlua{
+      mystartrange = \fstartrange
+      myendrange   = \fendrange
+      myfont         = '\myfont'
+%      tex.sprint(myfont)
+      }
+\doprintmysample
+\begin{multicols}{4}\noindent
+\doprintmytable
+\end{multicols}
+}
+
+%===============================
+\newcommand\tag[1]{{\color{blue}\usefont{T1}{lmtt}{m}{n}\small\fcolorbox{blue!80}{blue!5}{#1}}~~}
+
+\newcounter{fontcounter}
+
+\newcommand\blockstartAdlam{125184}
+\newcommand\blockstartAegeanNumbers{65792}
+\newcommand\blockstartAhom{71424}
+\newcommand\blockstartAlchemicalSymbols{128768}
+\newcommand\blockstartAlphabeticPresentationForms{64256}
+\newcommand\blockstartAnatolianHieroglyphs{82944}
+\newcommand\blockstartAncientGreekMusicalNotation{119296}
+\newcommand\blockstartAncientGreekNumbers{65856}
+\newcommand\blockstartAncientSymbols{65936}
+\newcommand\blockstartArabic{1536}
+\newcommand\blockstartArabicExtendedA{2208}
+\newcommand\blockstartArabicMathematicalAlphabeticSymbols{126464}
+\newcommand\blockstartArabicPresentationFormsA{64336}
+\newcommand\blockstartArabicPresentationFormsB{65136}
+\newcommand\blockstartArabicSupplement{1872}
+\newcommand\blockstartArmenian{1328}
+\newcommand\blockstartArrows{8592}
+\newcommand\blockstartAvestan{68352}
+\newcommand\blockstartBalinese{6912}
+\newcommand\blockstartBamum{42656}
+\newcommand\blockstartBamumSupplement{92160}
+\newcommand\blockstartBasicLatin{0}
+\newcommand\blockstartBassaVah{92880}
+\newcommand\blockstartBatak{7104}
+\newcommand\blockstartBengali{2432}
+\newcommand\blockstartBhaiksuki{72704}
+\newcommand\blockstartBlockElements{9600}
+\newcommand\blockstartBopomofo{12544}
+\newcommand\blockstartBopomofoExtended{12704}
+\newcommand\blockstartBoxDrawing{9472}
+\newcommand\blockstartBrahmi{69632}
+\newcommand\blockstartBraillePatterns{10240}
+\newcommand\blockstartBuginese{6656}
+\newcommand\blockstartBuhid{5952}
+\newcommand\blockstartByzantineMusicalSymbols{118784}
+\newcommand\blockstartCarian{66208}
+\newcommand\blockstartCaucasianAlbanian{66864}
+\newcommand\blockstartChakma{69888}
+\newcommand\blockstartCham{43520}
+\newcommand\blockstartCherokee{5024}
+\newcommand\blockstartCherokeeSupplement{43888}
+\newcommand\blockstartChessSymbols{129536}
+\newcommand\blockstartChorasmian{69552}
+\newcommand\blockstartCJKCompatibility{13056}
+\newcommand\blockstartCJKCompatibilityForms{65072}
+\newcommand\blockstartCJKCompatibilityIdeographs{63744}
+\newcommand\blockstartCJKCompatibilityIdeographsSupplement{194560}
+\newcommand\blockstartCJKRadicalsSupplement{11904}
+\newcommand\blockstartCJKStrokes{12736}
+\newcommand\blockstartCJKSymbolsandPunctuation{12288}
+\newcommand\blockstartCJKUnifiedIdeographs{19968}
+\newcommand\blockstartCJKUnifiedIdeographsExtensionA{13312}
+\newcommand\blockstartCJKUnifiedIdeographsExtensionB{131072}
+\newcommand\blockstartCJKUnifiedIdeographsExtensionC{173824}
+\newcommand\blockstartCJKUnifiedIdeographsExtensionD{177984}
+\newcommand\blockstartCJKUnifiedIdeographsExtensionE{178208}
+\newcommand\blockstartCJKUnifiedIdeographsExtensionF{183984}
+\newcommand\blockstartCJKUnifiedIdeographsExtensionG{196608}
+\newcommand\blockstartCombiningDiacriticalMarks{768}
+\newcommand\blockstartCombiningDiacriticalMarksExtended{6832}
+\newcommand\blockstartCombiningDiacriticalMarksforSymbols{8400}
+\newcommand\blockstartCombiningDiacriticalMarksSupplement{7616}
+\newcommand\blockstartCombiningHalfMarks{65056}
+\newcommand\blockstartCommonIndicNumberForms{43056}
+\newcommand\blockstartControlPictures{9216}
+\newcommand\blockstartCoptic{11392}
+\newcommand\blockstartCopticEpactNumbers{66272}
+\newcommand\blockstartCountingRodNumerals{119648}
+\newcommand\blockstartCuneiform{73728}
+\newcommand\blockstartCuneiformNumbersandPunctuation{74752}
+\newcommand\blockstartCurrencySymbols{8352}
+\newcommand\blockstartCypriotSyllabary{67584}
+\newcommand\blockstartCyrillic{1024}
+\newcommand\blockstartCyrillicExtendedA{11744}
+\newcommand\blockstartCyrillicExtendedB{42560}
+\newcommand\blockstartCyrillicExtendedC{7296}
+\newcommand\blockstartCyrillicSupplement{1280}
+\newcommand\blockstartDeseret{66560}
+\newcommand\blockstartDevanagari{2304}
+\newcommand\blockstartDevanagariExtended{43232}
+\newcommand\blockstartDingbats{9984}
+\newcommand\blockstartDivesAkuru{71936}
+\newcommand\blockstartDogra{71680}
+\newcommand\blockstartDominoTiles{127024}
+\newcommand\blockstartDuployan{113664}
+\newcommand\blockstartEarlyDynasticCuneiform{74880}
+\newcommand\blockstartEgyptianHieroglyphFormatControls{78896}
+\newcommand\blockstartEgyptianHieroglyphs{77824}
+\newcommand\blockstartElbasan{66816}
+\newcommand\blockstartElymaic{69600}
+\newcommand\blockstartEmoticons{128512}
+\newcommand\blockstartEnclosedAlphanumericSupplement{127232}
+\newcommand\blockstartEnclosedAlphanumerics{9312}
+\newcommand\blockstartEnclosedCJKLettersandMonths{12800}
+\newcommand\blockstartEnclosedIdeographicSupplement{127488}
+\newcommand\blockstartEthiopic{4608}
+\newcommand\blockstartEthiopicExtended{11648}
+\newcommand\blockstartEthiopicExtendedA{43776}
+\newcommand\blockstartEthiopicSupplement{4992}
+\newcommand\blockstartGeneralPunctuation{8192}
+\newcommand\blockstartGeometricShapes{9632}
+\newcommand\blockstartGeometricShapesExtended{128896}
+\newcommand\blockstartGeorgian{4256}
+\newcommand\blockstartGeorgianExtended{7312}
+\newcommand\blockstartGeorgianSupplement{11520}
+\newcommand\blockstartGlagolitic{11264}
+\newcommand\blockstartGlagoliticSupplement{122880}
+\newcommand\blockstartGothic{66352}
+\newcommand\blockstartGrantha{70400}
+\newcommand\blockstartGreekandCoptic{880}
+\newcommand\blockstartGreekExtended{7936}
+\newcommand\blockstartGujarati{2688}
+\newcommand\blockstartGunjalaGondi{73056}
+\newcommand\blockstartGurmukhi{2560}
+\newcommand\blockstartHalfwidthandFullwidthForms{65280}
+\newcommand\blockstartHangulCompatibilityJamo{12592}
+\newcommand\blockstartHangulJamo{4352}
+\newcommand\blockstartHangulJamoExtendedA{43360}
+\newcommand\blockstartHangulJamoExtendedB{55216}
+\newcommand\blockstartHangulSyllables{44032}
+\newcommand\blockstartHanifiRohingya{68864}
+\newcommand\blockstartHanunoo{5920}
+\newcommand\blockstartHatran{67808}
+\newcommand\blockstartHebrew{1424}
+\newcommand\blockstartHighPrivateUseSurrogates{56192}
+\newcommand\blockstartHighSurrogates{55296}
+\newcommand\blockstartHiragana{12352}
+\newcommand\blockstartIdeographicDescriptionCharacters{12272}
+\newcommand\blockstartIdeographicSymbolsandPunctuation{94176}
+\newcommand\blockstartImperialAramaic{67648}
+\newcommand\blockstartIndicSiyaqNumbers{126064}
+\newcommand\blockstartInscriptionalPahlavi{68448}
+\newcommand\blockstartInscriptionalParthian{68416}
+\newcommand\blockstartIPAExtensions{592}
+\newcommand\blockstartJavanese{43392}
+\newcommand\blockstartKaithi{69760}
+\newcommand\blockstartKanaExtendedA{110848}
+\newcommand\blockstartKanaSupplement{110592}
+\newcommand\blockstartKanbun{12688}
+\newcommand\blockstartKangxiRadicals{12032}
+\newcommand\blockstartKannada{3200}
+\newcommand\blockstartKatakana{12448}
+\newcommand\blockstartKatakanaPhoneticExtensions{12784}
+\newcommand\blockstartKayahLi{43264}
+\newcommand\blockstartKharoshthi{68096}
+\newcommand\blockstartKhitanSmallScript{101120}
+\newcommand\blockstartKhmer{6016}
+\newcommand\blockstartKhmerSymbols{6624}
+\newcommand\blockstartKhojki{70144}
+\newcommand\blockstartKhudawadi{70320}
+\newcommand\blockstartLao{3712}
+\newcommand\blockstartLatinExtendedAdditional{7680}
+\newcommand\blockstartLatinExtendedA{256}
+\newcommand\blockstartLatinExtendedB{384}
+\newcommand\blockstartLatinExtendedC{11360}
+\newcommand\blockstartLatinExtendedD{42784}
+\newcommand\blockstartLatinExtendedE{43824}
+\newcommand\blockstartLatiniSupplement{128}
+\newcommand\blockstartLepcha{7168}
+\newcommand\blockstartLetterlikeSymbols{8448}
+\newcommand\blockstartLimbu{6400}
+\newcommand\blockstartLinearA{67072}
+\newcommand\blockstartLinearBIdeograms{65664}
+\newcommand\blockstartLinearBSyllabary{65536}
+\newcommand\blockstartLisu{42192}
+\newcommand\blockstartLisuSupplement{73648}
+\newcommand\blockstartLowSurrogates{56320}
+\newcommand\blockstartLycian{66176}
+\newcommand\blockstartLydian{67872}
+\newcommand\blockstartMahajani{69968}
+\newcommand\blockstartMahjongTiles{126976}
+\newcommand\blockstartMakasar{73440}
+\newcommand\blockstartMalayalam{3328}
+\newcommand\blockstartMandaic{2112}
+\newcommand\blockstartManichaean{68288}
+\newcommand\blockstartMarchen{72816}
+\newcommand\blockstartMasaramGondi{72960}
+\newcommand\blockstartMathematicalAlphanumericSymbols{119808}
+\newcommand\blockstartMathematicalOperators{8704}
+\newcommand\blockstartMayanNumerals{119520}
+\newcommand\blockstartMedefaidrin{93760}
+\newcommand\blockstartMeeteiMayek{43968}
+\newcommand\blockstartMeeteiMayekExtensions{43744}
+\newcommand\blockstartMendeKikakui{124928}
+\newcommand\blockstartMeroiticCursive{68000}
+\newcommand\blockstartMeroiticHieroglyphs{67968}
+\newcommand\blockstartMiao{93952}
+\newcommand\blockstartMiscellaneousMathematicalSymbolsA{10176}
+\newcommand\blockstartMiscellaneousMathematicalSymbolsB{10624}
+\newcommand\blockstartMiscellaneousSymbols{9728}
+\newcommand\blockstartMiscellaneousSymbolsandArrows{11008}
+\newcommand\blockstartMiscellaneousSymbolsandPictographs{127744}
+\newcommand\blockstartMiscellaneousTechnical{8960}
+\newcommand\blockstartModi{71168}
+\newcommand\blockstartModifierToneLetters{42752}
+\newcommand\blockstartMongolian{6144}
+\newcommand\blockstartMongolianSupplement{71264}
+\newcommand\blockstartMro{92736}
+\newcommand\blockstartMultani{70272}
+\newcommand\blockstartMusicalSymbols{119040}
+\newcommand\blockstartMyanmar{4096}
+\newcommand\blockstartMyanmarExtendedA{43616}
+\newcommand\blockstartMyanmarExtendedB{43488}
+\newcommand\blockstartNabataean{67712}
+\newcommand\blockstartNandinagari{72096}
+\newcommand\blockstartNewTaiLue{6528}
+\newcommand\blockstartNewa{70656}
+\newcommand\blockstartNKo{1984}
+\newcommand\blockstartNumberForms{8528}
+\newcommand\blockstartNushu{110960}
+\newcommand\blockstartNyiakengPuachueHmong{123136}
+\newcommand\blockstartOgham{5760}
+\newcommand\blockstartOlChiki{7248}
+\newcommand\blockstartOldHungarian{68736}
+\newcommand\blockstartOldItalic{66304}
+\newcommand\blockstartOldNorthArabian{68224}
+\newcommand\blockstartOldPermic{66384}
+\newcommand\blockstartOldPersian{66464}
+\newcommand\blockstartOldSogdian{69376}
+\newcommand\blockstartOldSouthArabian{68192}
+\newcommand\blockstartOldTurkic{68608}
+\newcommand\blockstartOpticalCharacterRecognition{9280}
+\newcommand\blockstartOriya{2816}
+\newcommand\blockstartOrnamentalDingbats{128592}
+\newcommand\blockstartOsage{66736}
+\newcommand\blockstartOsmanya{66688}
+\newcommand\blockstartOttomanSiyaqNumbers{126208}
+\newcommand\blockstartPahawhHmong{92928}
+\newcommand\blockstartPalmyrene{67680}
+\newcommand\blockstartPauCinHau{72384}
+\newcommand\blockstartPhagspa{43072}
+\newcommand\blockstartPhaistosDisc{66000}
+\newcommand\blockstartPhoenician{67840}
+\newcommand\blockstartPhoneticExtensions{7424}
+\newcommand\blockstartPhoneticExtensionsSupplement{7552}
+\newcommand\blockstartPlayingCards{127136}
+\newcommand\blockstartPrivateUseArea{57344}
+\newcommand\blockstartPsalterPahlavi{68480}
+\newcommand\blockstartRejang{43312}
+\newcommand\blockstartRumiNumeralSymbols{69216}
+\newcommand\blockstartRunic{5792}
+\newcommand\blockstartSamaritan{2048}
+\newcommand\blockstartSaurashtra{43136}
+\newcommand\blockstartSharada{70016}
+\newcommand\blockstartShavian{66640}
+\newcommand\blockstartShorthandFormatControls{113824}
+\newcommand\blockstartSiddham{71040}
+\newcommand\blockstartSinhala{3456}
+\newcommand\blockstartSinhalaArchaicNumbers{70112}
+\newcommand\blockstartSmallFormVariants{65104}
+\newcommand\blockstartSmallKanaExtension{110896}
+\newcommand\blockstartSogdian{69424}
+\newcommand\blockstartSoraSompeng{69840}
+\newcommand\blockstartSoyombo{72272}
+\newcommand\blockstartSpacingModifierLetters{688}
+\newcommand\blockstartSpecials{65520}
+\newcommand\blockstartSundanese{7040}
+\newcommand\blockstartSundaneseSupplement{7360}
+\newcommand\blockstartSuperscriptsandSubscripts{8304}
+\newcommand\blockstartSupplementalArrowsA{10224}
+\newcommand\blockstartSupplementalArrowsB{10496}
+\newcommand\blockstartSupplementalArrowsC{129024}
+\newcommand\blockstartSupplementalMathematicalOperators{10752}
+\newcommand\blockstartSupplementalPunctuation{11776}
+\newcommand\blockstartSupplementalSymbolsandPictographs{129280}
+\newcommand\blockstartSupplementaryPrivateUseAreaA{983040}
+\newcommand\blockstartSupplementaryPrivateUseAreaB{1048576}
+\newcommand\blockstartSuttonSignWriting{120832}
+\newcommand\blockstartSylotiNagri{43008}
+\newcommand\blockstartSymbolsandPictographsExtendedA{129648}
+\newcommand\blockstartSymbolsforLegacyComputing{129792}
+\newcommand\blockstartSyriac{1792}
+\newcommand\blockstartSyriacSupplement{2144}
+\newcommand\blockstartTagalog{5888}
+\newcommand\blockstartTagbanwa{5984}
+\newcommand\blockstartTags{917504}
+\newcommand\blockstartTaiLe{6480}
+\newcommand\blockstartTaiTham{6688}
+\newcommand\blockstartTaiViet{43648}
+\newcommand\blockstartTaiXuanJingSymbols{119552}
+\newcommand\blockstartTakri{71296}
+\newcommand\blockstartTamil{2944}
+\newcommand\blockstartTamilSupplement{73664}
+\newcommand\blockstartTangut{94208}
+\newcommand\blockstartTangutComponents{100352}
+\newcommand\blockstartTangutSupplement{101632}
+\newcommand\blockstartTelugu{3072}
+\newcommand\blockstartThaana{1920}
+\newcommand\blockstartThai{3584}
+\newcommand\blockstartTibetan{3840}
+\newcommand\blockstartTifinagh{11568}
+\newcommand\blockstartTirhuta{70784}
+\newcommand\blockstartTransportandMapSymbols{128640}
+\newcommand\blockstartUgaritic{66432}
+\newcommand\blockstartUnifiedCanadianAboriginalSyllabics{5120}
+\newcommand\blockstartUnifiedCanadianAboriginalSyllabicsExtended{6320}
+\newcommand\blockstartVai{42240}
+\newcommand\blockstartVariationSelectors{65024}
+\newcommand\blockstartVariationSelectorsSupplement{917760}
+\newcommand\blockstartVedicExtensions{7376}
+\newcommand\blockstartVerticalForms{65040}
+\newcommand\blockstartWancho{123584}
+\newcommand\blockstartWarangCiti{71840}
+\newcommand\blockstartYezidi{69248}
+\newcommand\blockstartYiRadicals{42128}
+\newcommand\blockstartYiSyllables{40960}
+\newcommand\blockstartYijingHexagramSymbols{19904}
+\newcommand\blockstartZanabazarSquare{72192}
+
+\newcommand\blockfinishAdlam{125279}
+\newcommand\blockfinishAegeanNumbers{65855}
+\newcommand\blockfinishAhom{71487}
+\newcommand\blockfinishAlchemicalSymbols{128895}
+\newcommand\blockfinishAlphabeticPresentationForms{64335}
+\newcommand\blockfinishAnatolianHieroglyphs{83583}
+\newcommand\blockfinishAncientGreekMusicalNotation{119375}
+\newcommand\blockfinishAncientGreekNumbers{65935}
+\newcommand\blockfinishAncientSymbols{65999}
+\newcommand\blockfinishArabic{1791}
+\newcommand\blockfinishArabicExtendedA{2303}
+\newcommand\blockfinishArabicMathematicalAlphabeticSymbols{126719}
+\newcommand\blockfinishArabicPresentationFormsA{65023}
+\newcommand\blockfinishArabicPresentationFormsB{65279}
+\newcommand\blockfinishArabicSupplement{1919}
+\newcommand\blockfinishArmenian{1423}
+\newcommand\blockfinishArrows{8703}
+\newcommand\blockfinishAvestan{68415}
+\newcommand\blockfinishBalinese{7039}
+\newcommand\blockfinishBamum{42751}
+\newcommand\blockfinishBamumSupplement{92735}
+\newcommand\blockfinishBasicLatin{127}
+\newcommand\blockfinishBassaVah{92927}
+\newcommand\blockfinishBatak{7167}
+\newcommand\blockfinishBengali{2559}
+\newcommand\blockfinishBhaiksuki{72815}
+\newcommand\blockfinishBlockElements{9631}
+\newcommand\blockfinishBopomofo{12591}
+\newcommand\blockfinishBopomofoExtended{12735}
+\newcommand\blockfinishBoxDrawing{9599}
+\newcommand\blockfinishBrahmi{69759}
+\newcommand\blockfinishBraillePatterns{10495}
+\newcommand\blockfinishBuginese{6687}
+\newcommand\blockfinishBuhid{5983}
+\newcommand\blockfinishByzantineMusicalSymbols{119039}
+\newcommand\blockfinishCarian{66271}
+\newcommand\blockfinishCaucasianAlbanian{66927}
+\newcommand\blockfinishChakma{69967}
+\newcommand\blockfinishCham{43615}
+\newcommand\blockfinishCherokee{5119}
+\newcommand\blockfinishCherokeeSupplement{43967}
+\newcommand\blockfinishChessSymbols{129647}
+\newcommand\blockfinishChorasmian{69599}
+\newcommand\blockfinishCJKCompatibility{13311}
+\newcommand\blockfinishCJKCompatibilityForms{65103}
+\newcommand\blockfinishCJKCompatibilityIdeographs{64255}
+\newcommand\blockfinishCJKCompatibilityIdeographsSupplement{195103}
+\newcommand\blockfinishCJKRadicalsSupplement{12031}
+\newcommand\blockfinishCJKStrokes{12783}
+\newcommand\blockfinishCJKSymbolsandPunctuation{12351}
+\newcommand\blockfinishCJKUnifiedIdeographs{40959}
+\newcommand\blockfinishCJKUnifiedIdeographsExtensionA{19903}
+\newcommand\blockfinishCJKUnifiedIdeographsExtensionB{173791}
+\newcommand\blockfinishCJKUnifiedIdeographsExtensionC{177983}
+\newcommand\blockfinishCJKUnifiedIdeographsExtensionD{178207}
+\newcommand\blockfinishCJKUnifiedIdeographsExtensionE{183983}
+\newcommand\blockfinishCJKUnifiedIdeographsExtensionF{191471}
+\newcommand\blockfinishCJKUnifiedIdeographsExtensionG{201551}
+\newcommand\blockfinishCombiningDiacriticalMarks{879}
+\newcommand\blockfinishCombiningDiacriticalMarksExtended{6911}
+\newcommand\blockfinishCombiningDiacriticalMarksforSymbols{8447}
+\newcommand\blockfinishCombiningDiacriticalMarksSupplement{7679}
+\newcommand\blockfinishCombiningHalfMarks{65071}
+\newcommand\blockfinishCommonIndicNumberForms{43071}
+\newcommand\blockfinishControlPictures{9279}
+\newcommand\blockfinishCoptic{11519}
+\newcommand\blockfinishCopticEpactNumbers{66303}
+\newcommand\blockfinishCountingRodNumerals{119679}
+\newcommand\blockfinishCuneiform{74751}
+\newcommand\blockfinishCuneiformNumbersandPunctuation{74879}
+\newcommand\blockfinishCurrencySymbols{8399}
+\newcommand\blockfinishCypriotSyllabary{67647}
+\newcommand\blockfinishCyrillic{1279}
+\newcommand\blockfinishCyrillicExtendedA{11775}
+\newcommand\blockfinishCyrillicExtendedB{42655}
+\newcommand\blockfinishCyrillicExtendedC{7311}
+\newcommand\blockfinishCyrillicSupplement{1327}
+\newcommand\blockfinishDeseret{66639}
+\newcommand\blockfinishDevanagari{2431}
+\newcommand\blockfinishDevanagariExtended{43263}
+\newcommand\blockfinishDingbats{10175}
+\newcommand\blockfinishDivesAkuru{72031}
+\newcommand\blockfinishDogra{71759}
+\newcommand\blockfinishDominoTiles{127135}
+\newcommand\blockfinishDuployan{113823}
+\newcommand\blockfinishEarlyDynasticCuneiform{75087}
+\newcommand\blockfinishEgyptianHieroglyphFormatControls{78911}
+\newcommand\blockfinishEgyptianHieroglyphs{78895}
+\newcommand\blockfinishElbasan{66863}
+\newcommand\blockfinishElymaic{69631}
+\newcommand\blockfinishEmoticons{128591}
+\newcommand\blockfinishEnclosedAlphanumericSupplement{127487}
+\newcommand\blockfinishEnclosedAlphanumerics{9471}
+\newcommand\blockfinishEnclosedCJKLettersandMonths{13055}
+\newcommand\blockfinishEnclosedIdeographicSupplement{127743}
+\newcommand\blockfinishEthiopic{4991}
+\newcommand\blockfinishEthiopicExtended{11743}
+\newcommand\blockfinishEthiopicExtendedA{43823}
+\newcommand\blockfinishEthiopicSupplement{5023}
+\newcommand\blockfinishGeneralPunctuation{8303}
+\newcommand\blockfinishGeometricShapes{9727}
+\newcommand\blockfinishGeometricShapesExtended{129023}
+\newcommand\blockfinishGeorgian{4351}
+\newcommand\blockfinishGeorgianExtended{7359}
+\newcommand\blockfinishGeorgianSupplement{11567}
+\newcommand\blockfinishGlagolitic{11359}
+\newcommand\blockfinishGlagoliticSupplement{122927}
+\newcommand\blockfinishGothic{66383}
+\newcommand\blockfinishGrantha{70527}
+\newcommand\blockfinishGreekandCoptic{1023}
+\newcommand\blockfinishGreekExtended{8191}
+\newcommand\blockfinishGujarati{2815}
+\newcommand\blockfinishGunjalaGondi{73135}
+\newcommand\blockfinishGurmukhi{2687}
+\newcommand\blockfinishHalfwidthandFullwidthForms{65519}
+\newcommand\blockfinishHangulCompatibilityJamo{12687}
+\newcommand\blockfinishHangulJamo{4607}
+\newcommand\blockfinishHangulJamoExtendedA{43391}
+\newcommand\blockfinishHangulJamoExtendedB{55295}
+\newcommand\blockfinishHangulSyllables{55215}
+\newcommand\blockfinishHanifiRohingya{68927}
+\newcommand\blockfinishHanunoo{5951}
+\newcommand\blockfinishHatran{67839}
+\newcommand\blockfinishHebrew{1535}
+\newcommand\blockfinishHighPrivateUseSurrogates{56319}
+\newcommand\blockfinishHighSurrogates{56191}
+\newcommand\blockfinishHiragana{12447}
+\newcommand\blockfinishIdeographicDescriptionCharacters{12287}
+\newcommand\blockfinishIdeographicSymbolsandPunctuation{94207}
+\newcommand\blockfinishImperialAramaic{67679}
+\newcommand\blockfinishIndicSiyaqNumbers{126143}
+\newcommand\blockfinishInscriptionalPahlavi{68479}
+\newcommand\blockfinishInscriptionalParthian{68447}
+\newcommand\blockfinishIPAExtensions{687}
+\newcommand\blockfinishJavanese{43487}
+\newcommand\blockfinishKaithi{69839}
+\newcommand\blockfinishKanaExtendedA{110895}
+\newcommand\blockfinishKanaSupplement{110847}
+\newcommand\blockfinishKanbun{12703}
+\newcommand\blockfinishKangxiRadicals{12255}
+\newcommand\blockfinishKannada{3327}
+\newcommand\blockfinishKatakana{12543}
+\newcommand\blockfinishKatakanaPhoneticExtensions{12799}
+\newcommand\blockfinishKayahLi{43311}
+\newcommand\blockfinishKharoshthi{68191}
+\newcommand\blockfinishKhitanSmallScript{101631}
+\newcommand\blockfinishKhmer{6143}
+\newcommand\blockfinishKhmerSymbols{6655}
+\newcommand\blockfinishKhojki{70223}
+\newcommand\blockfinishKhudawadi{70399}
+\newcommand\blockfinishLao{3839}
+\newcommand\blockfinishLatinExtendedAdditional{7935}
+\newcommand\blockfinishLatinExtendedA{383}
+\newcommand\blockfinishLatinExtendedB{591}
+\newcommand\blockfinishLatinExtendedC{11391}
+\newcommand\blockfinishLatinExtendedD{43007}
+\newcommand\blockfinishLatinExtendedE{43887}
+\newcommand\blockfinishLatiniSupplement{255}
+\newcommand\blockfinishLepcha{7247}
+\newcommand\blockfinishLetterlikeSymbols{8527}
+\newcommand\blockfinishLimbu{6479}
+\newcommand\blockfinishLinearA{67455}
+\newcommand\blockfinishLinearBIdeograms{65791}
+\newcommand\blockfinishLinearBSyllabary{65663}
+\newcommand\blockfinishLisu{42239}
+\newcommand\blockfinishLisuSupplement{73663}
+\newcommand\blockfinishLowSurrogates{57343}
+\newcommand\blockfinishLycian{66207}
+\newcommand\blockfinishLydian{67903}
+\newcommand\blockfinishMahajani{70015}
+\newcommand\blockfinishMahjongTiles{127023}
+\newcommand\blockfinishMakasar{73471}
+\newcommand\blockfinishMalayalam{3455}
+\newcommand\blockfinishMandaic{2143}
+\newcommand\blockfinishManichaean{68351}
+\newcommand\blockfinishMarchen{72895}
+\newcommand\blockfinishMasaramGondi{73055}
+\newcommand\blockfinishMathematicalAlphanumericSymbols{120831}
+\newcommand\blockfinishMathematicalOperators{8959}
+\newcommand\blockfinishMayanNumerals{119551}
+\newcommand\blockfinishMedefaidrin{93855}
+\newcommand\blockfinishMeeteiMayek{44031}
+\newcommand\blockfinishMeeteiMayekExtensions{43775}
+\newcommand\blockfinishMendeKikakui{125151}
+\newcommand\blockfinishMeroiticCursive{68095}
+\newcommand\blockfinishMeroiticHieroglyphs{67999}
+\newcommand\blockfinishMiao{94111}
+\newcommand\blockfinishMiscellaneousMathematicalSymbolsA{10223}
+\newcommand\blockfinishMiscellaneousMathematicalSymbolsB{10751}
+\newcommand\blockfinishMiscellaneousSymbols{9983}
+\newcommand\blockfinishMiscellaneousSymbolsandArrows{11263}
+\newcommand\blockfinishMiscellaneousSymbolsandPictographs{128511}
+\newcommand\blockfinishMiscellaneousTechnical{9215}
+\newcommand\blockfinishModi{71263}
+\newcommand\blockfinishModifierToneLetters{42783}
+\newcommand\blockfinishMongolian{6319}
+\newcommand\blockfinishMongolianSupplement{71295}
+\newcommand\blockfinishMro{92783}
+\newcommand\blockfinishMultani{70319}
+\newcommand\blockfinishMusicalSymbols{119295}
+\newcommand\blockfinishMyanmar{4255}
+\newcommand\blockfinishMyanmarExtendedA{43647}
+\newcommand\blockfinishMyanmarExtendedB{43519}
+\newcommand\blockfinishNabataean{67759}
+\newcommand\blockfinishNandinagari{72191}
+\newcommand\blockfinishNewTaiLue{6623}
+\newcommand\blockfinishNewa{70783}
+\newcommand\blockfinishNKo{2047}
+\newcommand\blockfinishNumberForms{8591}
+\newcommand\blockfinishNushu{111359}
+\newcommand\blockfinishNyiakengPuachueHmong{123215}
+\newcommand\blockfinishOgham{5791}
+\newcommand\blockfinishOlChiki{7295}
+\newcommand\blockfinishOldHungarian{68863}
+\newcommand\blockfinishOldItalic{66351}
+\newcommand\blockfinishOldNorthArabian{68255}
+\newcommand\blockfinishOldPermic{66431}
+\newcommand\blockfinishOldPersian{66527}
+\newcommand\blockfinishOldSogdian{69423}
+\newcommand\blockfinishOldSouthArabian{68223}
+\newcommand\blockfinishOldTurkic{68687}
+\newcommand\blockfinishOpticalCharacterRecognition{9311}
+\newcommand\blockfinishOriya{2943}
+\newcommand\blockfinishOrnamentalDingbats{128639}
+\newcommand\blockfinishOsage{66815}
+\newcommand\blockfinishOsmanya{66735}
+\newcommand\blockfinishOttomanSiyaqNumbers{126287}
+\newcommand\blockfinishPahawhHmong{93071}
+\newcommand\blockfinishPalmyrene{67711}
+\newcommand\blockfinishPauCinHau{72447}
+\newcommand\blockfinishPhagspa{43135}
+\newcommand\blockfinishPhaistosDisc{66047}
+\newcommand\blockfinishPhoenician{67871}
+\newcommand\blockfinishPhoneticExtensions{7551}
+\newcommand\blockfinishPhoneticExtensionsSupplement{7615}
+\newcommand\blockfinishPlayingCards{127231}
+\newcommand\blockfinishPrivateUseArea{63743}
+\newcommand\blockfinishPsalterPahlavi{68527}
+\newcommand\blockfinishRejang{43359}
+\newcommand\blockfinishRumiNumeralSymbols{69247}
+\newcommand\blockfinishRunic{5887}
+\newcommand\blockfinishSamaritan{2111}
+\newcommand\blockfinishSaurashtra{43231}
+\newcommand\blockfinishSharada{70111}
+\newcommand\blockfinishShavian{66687}
+\newcommand\blockfinishShorthandFormatControls{113839}
+\newcommand\blockfinishSiddham{71167}
+\newcommand\blockfinishSinhala{3583}
+\newcommand\blockfinishSinhalaArchaicNumbers{70143}
+\newcommand\blockfinishSmallFormVariants{65135}
+\newcommand\blockfinishSmallKanaExtension{110959}
+\newcommand\blockfinishSogdian{69487}
+\newcommand\blockfinishSoraSompeng{69887}
+\newcommand\blockfinishSoyombo{72367}
+\newcommand\blockfinishSpacingModifierLetters{767}
+\newcommand\blockfinishSpecials{65535}
+\newcommand\blockfinishSundanese{7103}
+\newcommand\blockfinishSundaneseSupplement{7375}
+\newcommand\blockfinishSuperscriptsandSubscripts{8351}
+\newcommand\blockfinishSupplementalArrowsA{10239}
+\newcommand\blockfinishSupplementalArrowsB{10623}
+\newcommand\blockfinishSupplementalArrowsC{129279}
+\newcommand\blockfinishSupplementalMathematicalOperators{11007}
+\newcommand\blockfinishSupplementalPunctuation{11903}
+\newcommand\blockfinishSupplementalSymbolsandPictographs{129535}
+\newcommand\blockfinishSupplementaryPrivateUseAreaA{1048575}
+\newcommand\blockfinishSupplementaryPrivateUseAreaB{1114111}
+\newcommand\blockfinishSuttonSignWriting{121519}
+\newcommand\blockfinishSylotiNagri{43055}
+\newcommand\blockfinishSymbolsandPictographsExtendedA{129791}
+\newcommand\blockfinishSymbolsforLegacyComputing{130047}
+\newcommand\blockfinishSyriac{1871}
+\newcommand\blockfinishSyriacSupplement{2159}
+\newcommand\blockfinishTagalog{5919}
+\newcommand\blockfinishTagbanwa{6015}
+\newcommand\blockfinishTags{917631}
+\newcommand\blockfinishTaiLe{6527}
+\newcommand\blockfinishTaiTham{6831}
+\newcommand\blockfinishTaiViet{43743}
+\newcommand\blockfinishTaiXuanJingSymbols{119647}
+\newcommand\blockfinishTakri{71375}
+\newcommand\blockfinishTamil{3071}
+\newcommand\blockfinishTamilSupplement{73727}
+\newcommand\blockfinishTangut{100351}
+\newcommand\blockfinishTangutComponents{101119}
+\newcommand\blockfinishTangutSupplement{101775}
+\newcommand\blockfinishTelugu{3199}
+\newcommand\blockfinishThaana{1983}
+\newcommand\blockfinishThai{3711}
+\newcommand\blockfinishTibetan{4095}
+\newcommand\blockfinishTifinagh{11647}
+\newcommand\blockfinishTirhuta{70879}
+\newcommand\blockfinishTransportandMapSymbols{128767}
+\newcommand\blockfinishUgaritic{66463}
+\newcommand\blockfinishUnifiedCanadianAboriginalSyllabics{5759}
+\newcommand\blockfinishUnifiedCanadianAboriginalSyllabicsExtended{6399}
+\newcommand\blockfinishVai{42559}
+\newcommand\blockfinishVariationSelectors{65039}
+\newcommand\blockfinishVariationSelectorsSupplement{917999}
+\newcommand\blockfinishVedicExtensions{7423}
+\newcommand\blockfinishVerticalForms{65055}
+\newcommand\blockfinishWancho{123647}
+\newcommand\blockfinishWarangCiti{71935}
+\newcommand\blockfinishYezidi{69311}
+\newcommand\blockfinishYiRadicals{42191}
+\newcommand\blockfinishYiSyllables{42127}
+\newcommand\blockfinishYijingHexagramSymbols{19967}
+\newcommand\blockfinishZanabazarSquare{72271}
+\newcommand\printblockAdlam{\doprintmyblock{\blockstartAdlam}{\blockfinishAdlam}}
+\newcommand\printblockAegeanNumbers{\doprintmyblock{\blockstartAegeanNumbers}{\blockfinishAegeanNumbers}}
+\newcommand\printblockAhom{\doprintmyblock{\blockstartAhom}{\blockfinishAhom}}
+\newcommand\printblockAlchemicalSymbols{\doprintmyblock{\blockstartAlchemicalSymbols}{\blockfinishAlchemicalSymbols}}
+\newcommand\printblockAlphabeticPresentationForms{\doprintmyblock{\blockstartAlphabeticPresentationForms}{\blockfinishAlphabeticPresentationForms}}
+\newcommand\printblockAnatolianHieroglyphs{\doprintmyblock{\blockstartAnatolianHieroglyphs}{\blockfinishAnatolianHieroglyphs}}
+\newcommand\printblockAncientGreekMusicalNotation{\doprintmyblock{\blockstartAncientGreekMusicalNotation}{\blockfinishAncientGreekMusicalNotation}}
+\newcommand\printblockAncientGreekNumbers{\doprintmyblock{\blockstartAncientGreekNumbers}{\blockfinishAncientGreekNumbers}}
+\newcommand\printblockAncientSymbols{\doprintmyblock{\blockstartAncientSymbols}{\blockfinishAncientSymbols}}
+\newcommand\printblockArabic{\doprintmyblock{\blockstartArabic}{\blockfinishArabic}}
+\newcommand\printblockArabicExtendedA{\doprintmyblock{\blockstartArabicExtendedA}{\blockfinishArabicExtendedA}}
+\newcommand\printblockArabicMathematicalAlphabeticSymbols{\doprintmyblock{\blockstartArabicMathematicalAlphabeticSymbols}{\blockfinishArabicMathematicalAlphabeticSymbols}}
+\newcommand\printblockArabicPresentationFormsA{\doprintmyblock{\blockstartArabicPresentationFormsA}{\blockfinishArabicPresentationFormsA}}
+\newcommand\printblockArabicPresentationFormsB{\doprintmyblock{\blockstartArabicPresentationFormsB}{\blockfinishArabicPresentationFormsB}}
+\newcommand\printblockArabicSupplement{\doprintmyblock{\blockstartArabicSupplement}{\blockfinishArabicSupplement}}
+\newcommand\printblockArmenian{\doprintmyblock{\blockstartArmenian}{\blockfinishArmenian}}
+\newcommand\printblockArrows{\doprintmyblock{\blockstartArrows}{\blockfinishArrows}}
+\newcommand\printblockAvestan{\doprintmyblock{\blockstartAvestan}{\blockfinishAvestan}}
+\newcommand\printblockBalinese{\doprintmyblock{\blockstartBalinese}{\blockfinishBalinese}}
+\newcommand\printblockBamum{\doprintmyblock{\blockstartBamum}{\blockfinishBamum}}
+\newcommand\printblockBamumSupplement{\doprintmyblock{\blockstartBamumSupplement}{\blockfinishBamumSupplement}}
+\newcommand\printblockBasicLatin{\doprintmyblock{\blockstartBasicLatin}{\blockfinishBasicLatin}}
+\newcommand\printblockBassaVah{\doprintmyblock{\blockstartBassaVah}{\blockfinishBassaVah}}
+\newcommand\printblockBatak{\doprintmyblock{\blockstartBatak}{\blockfinishBatak}}
+\newcommand\printblockBengali{\doprintmyblock{\blockstartBengali}{\blockfinishBengali}}
+\newcommand\printblockBhaiksuki{\doprintmyblock{\blockstartBhaiksuki}{\blockfinishBhaiksuki}}
+\newcommand\printblockBlockElements{\doprintmyblock{\blockstartBlockElements}{\blockfinishBlockElements}}
+\newcommand\printblockBopomofo{\doprintmyblock{\blockstartBopomofo}{\blockfinishBopomofo}}
+\newcommand\printblockBopomofoExtended{\doprintmyblock{\blockstartBopomofoExtended}{\blockfinishBopomofoExtended}}
+\newcommand\printblockBoxDrawing{\doprintmyblock{\blockstartBoxDrawing}{\blockfinishBoxDrawing}}
+\newcommand\printblockBrahmi{\doprintmyblock{\blockstartBrahmi}{\blockfinishBrahmi}}
+\newcommand\printblockBraillePatterns{\doprintmyblock{\blockstartBraillePatterns}{\blockfinishBraillePatterns}}
+\newcommand\printblockBuginese{\doprintmyblock{\blockstartBuginese}{\blockfinishBuginese}}
+\newcommand\printblockBuhid{\doprintmyblock{\blockstartBuhid}{\blockfinishBuhid}}
+\newcommand\printblockByzantineMusicalSymbols{\doprintmyblock{\blockstartByzantineMusicalSymbols}{\blockfinishByzantineMusicalSymbols}}
+\newcommand\printblockCarian{\doprintmyblock{\blockstartCarian}{\blockfinishCarian}}
+\newcommand\printblockCaucasianAlbanian{\doprintmyblock{\blockstartCaucasianAlbanian}{\blockfinishCaucasianAlbanian}}
+\newcommand\printblockChakma{\doprintmyblock{\blockstartChakma}{\blockfinishChakma}}
+\newcommand\printblockCham{\doprintmyblock{\blockstartCham}{\blockfinishCham}}
+\newcommand\printblockCherokee{\doprintmyblock{\blockstartCherokee}{\blockfinishCherokee}}
+\newcommand\printblockCherokeeSupplement{\doprintmyblock{\blockstartCherokeeSupplement}{\blockfinishCherokeeSupplement}}
+\newcommand\printblockChessSymbols{\doprintmyblock{\blockstartChessSymbols}{\blockfinishChessSymbols}}
+\newcommand\printblockChorasmian{\doprintmyblock{\blockstartChorasmian}{\blockfinishChorasmian}}
+\newcommand\printblockCJKCompatibility{\doprintmyblock{\blockstartCJKCompatibility}{\blockfinishCJKCompatibility}}
+\newcommand\printblockCJKCompatibilityForms{\doprintmyblock{\blockstartCJKCompatibilityForms}{\blockfinishCJKCompatibilityForms}}
+\newcommand\printblockCJKCompatibilityIdeographs{\doprintmyblock{\blockstartCJKCompatibilityIdeographs}{\blockfinishCJKCompatibilityIdeographs}}
+\newcommand\printblockCJKCompatibilityIdeographsSupplement{\doprintmyblock{\blockstartCJKCompatibilityIdeographsSupplement}{\blockfinishCJKCompatibilityIdeographsSupplement}}
+\newcommand\printblockCJKRadicalsSupplement{\doprintmyblock{\blockstartCJKRadicalsSupplement}{\blockfinishCJKRadicalsSupplement}}
+\newcommand\printblockCJKStrokes{\doprintmyblock{\blockstartCJKStrokes}{\blockfinishCJKStrokes}}
+\newcommand\printblockCJKSymbolsandPunctuation{\doprintmyblock{\blockstartCJKSymbolsandPunctuation}{\blockfinishCJKSymbolsandPunctuation}}
+\newcommand\printblockCJKUnifiedIdeographs{\doprintmyblock{\blockstartCJKUnifiedIdeographs}{\blockfinishCJKUnifiedIdeographs}}
+\newcommand\printblockCJKUnifiedIdeographsExtensionA{\doprintmyblock{\blockstartCJKUnifiedIdeographsExtensionA}{\blockfinishCJKUnifiedIdeographsExtensionA}}
+\newcommand\printblockCJKUnifiedIdeographsExtensionB{\doprintmyblock{\blockstartCJKUnifiedIdeographsExtensionB}{\blockfinishCJKUnifiedIdeographsExtensionB}}
+\newcommand\printblockCJKUnifiedIdeographsExtensionC{\doprintmyblock{\blockstartCJKUnifiedIdeographsExtensionC}{\blockfinishCJKUnifiedIdeographsExtensionC}}
+\newcommand\printblockCJKUnifiedIdeographsExtensionD{\doprintmyblock{\blockstartCJKUnifiedIdeographsExtensionD}{\blockfinishCJKUnifiedIdeographsExtensionD}}
+\newcommand\printblockCJKUnifiedIdeographsExtensionE{\doprintmyblock{\blockstartCJKUnifiedIdeographsExtensionE}{\blockfinishCJKUnifiedIdeographsExtensionE}}
+\newcommand\printblockCJKUnifiedIdeographsExtensionF{\doprintmyblock{\blockstartCJKUnifiedIdeographsExtensionF}{\blockfinishCJKUnifiedIdeographsExtensionF}}
+\newcommand\printblockCJKUnifiedIdeographsExtensionG{\doprintmyblock{\blockstartCJKUnifiedIdeographsExtensionG}{\blockfinishCJKUnifiedIdeographsExtensionG}}
+\newcommand\printblockCombiningDiacriticalMarks{\doprintmyblock{\blockstartCombiningDiacriticalMarks}{\blockfinishCombiningDiacriticalMarks}}
+\newcommand\printblockCombiningDiacriticalMarksExtended{\doprintmyblock{\blockstartCombiningDiacriticalMarksExtended}{\blockfinishCombiningDiacriticalMarksExtended}}
+\newcommand\printblockCombiningDiacriticalMarksforSymbols{\doprintmyblock{\blockstartCombiningDiacriticalMarksforSymbols}{\blockfinishCombiningDiacriticalMarksforSymbols}}
+\newcommand\printblockCombiningDiacriticalMarksSupplement{\doprintmyblock{\blockstartCombiningDiacriticalMarksSupplement}{\blockfinishCombiningDiacriticalMarksSupplement}}
+\newcommand\printblockCombiningHalfMarks{\doprintmyblock{\blockstartCombiningHalfMarks}{\blockfinishCombiningHalfMarks}}
+\newcommand\printblockCommonIndicNumberForms{\doprintmyblock{\blockstartCommonIndicNumberForms}{\blockfinishCommonIndicNumberForms}}
+\newcommand\printblockControlPictures{\doprintmyblock{\blockstartControlPictures}{\blockfinishControlPictures}}
+\newcommand\printblockCoptic{\doprintmyblock{\blockstartCoptic}{\blockfinishCoptic}}
+\newcommand\printblockCopticEpactNumbers{\doprintmyblock{\blockstartCopticEpactNumbers}{\blockfinishCopticEpactNumbers}}
+\newcommand\printblockCountingRodNumerals{\doprintmyblock{\blockstartCountingRodNumerals}{\blockfinishCountingRodNumerals}}
+\newcommand\printblockCuneiform{\doprintmyblock{\blockstartCuneiform}{\blockfinishCuneiform}}
+\newcommand\printblockCuneiformNumbersandPunctuation{\doprintmyblock{\blockstartCuneiformNumbersandPunctuation}{\blockfinishCuneiformNumbersandPunctuation}}
+\newcommand\printblockCurrencySymbols{\doprintmyblock{\blockstartCurrencySymbols}{\blockfinishCurrencySymbols}}
+\newcommand\printblockCypriotSyllabary{\doprintmyblock{\blockstartCypriotSyllabary}{\blockfinishCypriotSyllabary}}
+\newcommand\printblockCyrillic{\doprintmyblock{\blockstartCyrillic}{\blockfinishCyrillic}}
+\newcommand\printblockCyrillicExtendedA{\doprintmyblock{\blockstartCyrillicExtendedA}{\blockfinishCyrillicExtendedA}}
+\newcommand\printblockCyrillicExtendedB{\doprintmyblock{\blockstartCyrillicExtendedB}{\blockfinishCyrillicExtendedB}}
+\newcommand\printblockCyrillicExtendedC{\doprintmyblock{\blockstartCyrillicExtendedC}{\blockfinishCyrillicExtendedC}}
+\newcommand\printblockCyrillicSupplement{\doprintmyblock{\blockstartCyrillicSupplement}{\blockfinishCyrillicSupplement}}
+\newcommand\printblockDeseret{\doprintmyblock{\blockstartDeseret}{\blockfinishDeseret}}
+\newcommand\printblockDevanagari{\doprintmyblock{\blockstartDevanagari}{\blockfinishDevanagari}}
+\newcommand\printblockDevanagariExtended{\doprintmyblock{\blockstartDevanagariExtended}{\blockfinishDevanagariExtended}}
+\newcommand\printblockDingbats{\doprintmyblock{\blockstartDingbats}{\blockfinishDingbats}}
+\newcommand\printblockDivesAkuru{\doprintmyblock{\blockstartDivesAkuru}{\blockfinishDivesAkuru}}
+\newcommand\printblockDogra{\doprintmyblock{\blockstartDogra}{\blockfinishDogra}}
+\newcommand\printblockDominoTiles{\doprintmyblock{\blockstartDominoTiles}{\blockfinishDominoTiles}}
+\newcommand\printblockDuployan{\doprintmyblock{\blockstartDuployan}{\blockfinishDuployan}}
+\newcommand\printblockEarlyDynasticCuneiform{\doprintmyblock{\blockstartEarlyDynasticCuneiform}{\blockfinishEarlyDynasticCuneiform}}
+\newcommand\printblockEgyptianHieroglyphFormatControls{\doprintmyblock{\blockstartEgyptianHieroglyphFormatControls}{\blockfinishEgyptianHieroglyphFormatControls}}
+\newcommand\printblockEgyptianHieroglyphs{\doprintmyblock{\blockstartEgyptianHieroglyphs}{\blockfinishEgyptianHieroglyphs}}
+\newcommand\printblockElbasan{\doprintmyblock{\blockstartElbasan}{\blockfinishElbasan}}
+\newcommand\printblockElymaic{\doprintmyblock{\blockstartElymaic}{\blockfinishElymaic}}
+\newcommand\printblockEmoticons{\doprintmyblock{\blockstartEmoticons}{\blockfinishEmoticons}}
+\newcommand\printblockEnclosedAlphanumericSupplement{\doprintmyblock{\blockstartEnclosedAlphanumericSupplement}{\blockfinishEnclosedAlphanumericSupplement}}
+\newcommand\printblockEnclosedAlphanumerics{\doprintmyblock{\blockstartEnclosedAlphanumerics}{\blockfinishEnclosedAlphanumerics}}
+\newcommand\printblockEnclosedCJKLettersandMonths{\doprintmyblock{\blockstartEnclosedCJKLettersandMonths}{\blockfinishEnclosedCJKLettersandMonths}}
+\newcommand\printblockEnclosedIdeographicSupplement{\doprintmyblock{\blockstartEnclosedIdeographicSupplement}{\blockfinishEnclosedIdeographicSupplement}}
+\newcommand\printblockEthiopic{\doprintmyblock{\blockstartEthiopic}{\blockfinishEthiopic}}
+\newcommand\printblockEthiopicExtended{\doprintmyblock{\blockstartEthiopicExtended}{\blockfinishEthiopicExtended}}
+\newcommand\printblockEthiopicExtendedA{\doprintmyblock{\blockstartEthiopicExtendedA}{\blockfinishEthiopicExtendedA}}
+\newcommand\printblockEthiopicSupplement{\doprintmyblock{\blockstartEthiopicSupplement}{\blockfinishEthiopicSupplement}}
+\newcommand\printblockGeneralPunctuation{\doprintmyblock{\blockstartGeneralPunctuation}{\blockfinishGeneralPunctuation}}
+\newcommand\printblockGeometricShapes{\doprintmyblock{\blockstartGeometricShapes}{\blockfinishGeometricShapes}}
+\newcommand\printblockGeometricShapesExtended{\doprintmyblock{\blockstartGeometricShapesExtended}{\blockfinishGeometricShapesExtended}}
+\newcommand\printblockGeorgian{\doprintmyblock{\blockstartGeorgian}{\blockfinishGeorgian}}
+\newcommand\printblockGeorgianExtended{\doprintmyblock{\blockstartGeorgianExtended}{\blockfinishGeorgianExtended}}
+\newcommand\printblockGeorgianSupplement{\doprintmyblock{\blockstartGeorgianSupplement}{\blockfinishGeorgianSupplement}}
+\newcommand\printblockGlagolitic{\doprintmyblock{\blockstartGlagolitic}{\blockfinishGlagolitic}}
+\newcommand\printblockGlagoliticSupplement{\doprintmyblock{\blockstartGlagoliticSupplement}{\blockfinishGlagoliticSupplement}}
+\newcommand\printblockGothic{\doprintmyblock{\blockstartGothic}{\blockfinishGothic}}
+\newcommand\printblockGrantha{\doprintmyblock{\blockstartGrantha}{\blockfinishGrantha}}
+\newcommand\printblockGreekandCoptic{\doprintmyblock{\blockstartGreekandCoptic}{\blockfinishGreekandCoptic}}
+\newcommand\printblockGreekExtended{\doprintmyblock{\blockstartGreekExtended}{\blockfinishGreekExtended}}
+\newcommand\printblockGujarati{\doprintmyblock{\blockstartGujarati}{\blockfinishGujarati}}
+\newcommand\printblockGunjalaGondi{\doprintmyblock{\blockstartGunjalaGondi}{\blockfinishGunjalaGondi}}
+\newcommand\printblockGurmukhi{\doprintmyblock{\blockstartGurmukhi}{\blockfinishGurmukhi}}
+\newcommand\printblockHalfwidthandFullwidthForms{\doprintmyblock{\blockstartHalfwidthandFullwidthForms}{\blockfinishHalfwidthandFullwidthForms}}
+\newcommand\printblockHangulCompatibilityJamo{\doprintmyblock{\blockstartHangulCompatibilityJamo}{\blockfinishHangulCompatibilityJamo}}
+\newcommand\printblockHangulJamo{\doprintmyblock{\blockstartHangulJamo}{\blockfinishHangulJamo}}
+\newcommand\printblockHangulJamoExtendedA{\doprintmyblock{\blockstartHangulJamoExtendedA}{\blockfinishHangulJamoExtendedA}}
+\newcommand\printblockHangulJamoExtendedB{\doprintmyblock{\blockstartHangulJamoExtendedB}{\blockfinishHangulJamoExtendedB}}
+\newcommand\printblockHangulSyllables{\doprintmyblock{\blockstartHangulSyllables}{\blockfinishHangulSyllables}}
+\newcommand\printblockHanifiRohingya{\doprintmyblock{\blockstartHanifiRohingya}{\blockfinishHanifiRohingya}}
+\newcommand\printblockHanunoo{\doprintmyblock{\blockstartHanunoo}{\blockfinishHanunoo}}
+\newcommand\printblockHatran{\doprintmyblock{\blockstartHatran}{\blockfinishHatran}}
+\newcommand\printblockHebrew{\doprintmyblock{\blockstartHebrew}{\blockfinishHebrew}}
+\newcommand\printblockHighPrivateUseSurrogates{\doprintmyblock{\blockstartHighPrivateUseSurrogates}{\blockfinishHighPrivateUseSurrogates}}
+\newcommand\printblockHighSurrogates{\doprintmyblock{\blockstartHighSurrogates}{\blockfinishHighSurrogates}}
+\newcommand\printblockHiragana{\doprintmyblock{\blockstartHiragana}{\blockfinishHiragana}}
+\newcommand\printblockIdeographicDescriptionCharacters{\doprintmyblock{\blockstartIdeographicDescriptionCharacters}{\blockfinishIdeographicDescriptionCharacters}}
+\newcommand\printblockIdeographicSymbolsandPunctuation{\doprintmyblock{\blockstartIdeographicSymbolsandPunctuation}{\blockfinishIdeographicSymbolsandPunctuation}}
+\newcommand\printblockImperialAramaic{\doprintmyblock{\blockstartImperialAramaic}{\blockfinishImperialAramaic}}
+\newcommand\printblockIndicSiyaqNumbers{\doprintmyblock{\blockstartIndicSiyaqNumbers}{\blockfinishIndicSiyaqNumbers}}
+\newcommand\printblockInscriptionalPahlavi{\doprintmyblock{\blockstartInscriptionalPahlavi}{\blockfinishInscriptionalPahlavi}}
+\newcommand\printblockInscriptionalParthian{\doprintmyblock{\blockstartInscriptionalParthian}{\blockfinishInscriptionalParthian}}
+\newcommand\printblockIPAExtensions{\doprintmyblock{\blockstartIPAExtensions}{\blockfinishIPAExtensions}}
+\newcommand\printblockJavanese{\doprintmyblock{\blockstartJavanese}{\blockfinishJavanese}}
+\newcommand\printblockKaithi{\doprintmyblock{\blockstartKaithi}{\blockfinishKaithi}}
+\newcommand\printblockKanaExtendedA{\doprintmyblock{\blockstartKanaExtendedA}{\blockfinishKanaExtendedA}}
+\newcommand\printblockKanaSupplement{\doprintmyblock{\blockstartKanaSupplement}{\blockfinishKanaSupplement}}
+\newcommand\printblockKanbun{\doprintmyblock{\blockstartKanbun}{\blockfinishKanbun}}
+\newcommand\printblockKangxiRadicals{\doprintmyblock{\blockstartKangxiRadicals}{\blockfinishKangxiRadicals}}
+\newcommand\printblockKannada{\doprintmyblock{\blockstartKannada}{\blockfinishKannada}}
+\newcommand\printblockKatakana{\doprintmyblock{\blockstartKatakana}{\blockfinishKatakana}}
+\newcommand\printblockKatakanaPhoneticExtensions{\doprintmyblock{\blockstartKatakanaPhoneticExtensions}{\blockfinishKatakanaPhoneticExtensions}}
+\newcommand\printblockKayahLi{\doprintmyblock{\blockstartKayahLi}{\blockfinishKayahLi}}
+\newcommand\printblockKharoshthi{\doprintmyblock{\blockstartKharoshthi}{\blockfinishKharoshthi}}
+\newcommand\printblockKhitanSmallScript{\doprintmyblock{\blockstartKhitanSmallScript}{\blockfinishKhitanSmallScript}}
+\newcommand\printblockKhmer{\doprintmyblock{\blockstartKhmer}{\blockfinishKhmer}}
+\newcommand\printblockKhmerSymbols{\doprintmyblock{\blockstartKhmerSymbols}{\blockfinishKhmerSymbols}}
+\newcommand\printblockKhojki{\doprintmyblock{\blockstartKhojki}{\blockfinishKhojki}}
+\newcommand\printblockKhudawadi{\doprintmyblock{\blockstartKhudawadi}{\blockfinishKhudawadi}}
+\newcommand\printblockLao{\doprintmyblock{\blockstartLao}{\blockfinishLao}}
+\newcommand\printblockLatinExtendedAdditional{\doprintmyblock{\blockstartLatinExtendedAdditional}{\blockfinishLatinExtendedAdditional}}
+\newcommand\printblockLatinExtendedA{\doprintmyblock{\blockstartLatinExtendedA}{\blockfinishLatinExtendedA}}
+\newcommand\printblockLatinExtendedB{\doprintmyblock{\blockstartLatinExtendedB}{\blockfinishLatinExtendedB}}
+\newcommand\printblockLatinExtendedC{\doprintmyblock{\blockstartLatinExtendedC}{\blockfinishLatinExtendedC}}
+\newcommand\printblockLatinExtendedD{\doprintmyblock{\blockstartLatinExtendedD}{\blockfinishLatinExtendedD}}
+\newcommand\printblockLatinExtendedE{\doprintmyblock{\blockstartLatinExtendedE}{\blockfinishLatinExtendedE}}
+\newcommand\printblockLatiniSupplement{\doprintmyblock{\blockstartLatiniSupplement}{\blockfinishLatiniSupplement}}
+\newcommand\printblockLepcha{\doprintmyblock{\blockstartLepcha}{\blockfinishLepcha}}
+\newcommand\printblockLetterlikeSymbols{\doprintmyblock{\blockstartLetterlikeSymbols}{\blockfinishLetterlikeSymbols}}
+\newcommand\printblockLimbu{\doprintmyblock{\blockstartLimbu}{\blockfinishLimbu}}
+\newcommand\printblockLinearA{\doprintmyblock{\blockstartLinearA}{\blockfinishLinearA}}
+\newcommand\printblockLinearBIdeograms{\doprintmyblock{\blockstartLinearBIdeograms}{\blockfinishLinearBIdeograms}}
+\newcommand\printblockLinearBSyllabary{\doprintmyblock{\blockstartLinearBSyllabary}{\blockfinishLinearBSyllabary}}
+\newcommand\printblockLisu{\doprintmyblock{\blockstartLisu}{\blockfinishLisu}}
+\newcommand\printblockLisuSupplement{\doprintmyblock{\blockstartLisuSupplement}{\blockfinishLisuSupplement}}
+\newcommand\printblockLowSurrogates{\doprintmyblock{\blockstartLowSurrogates}{\blockfinishLowSurrogates}}
+\newcommand\printblockLycian{\doprintmyblock{\blockstartLycian}{\blockfinishLycian}}
+\newcommand\printblockLydian{\doprintmyblock{\blockstartLydian}{\blockfinishLydian}}
+\newcommand\printblockMahajani{\doprintmyblock{\blockstartMahajani}{\blockfinishMahajani}}
+\newcommand\printblockMahjongTiles{\doprintmyblock{\blockstartMahjongTiles}{\blockfinishMahjongTiles}}
+\newcommand\printblockMakasar{\doprintmyblock{\blockstartMakasar}{\blockfinishMakasar}}
+\newcommand\printblockMalayalam{\doprintmyblock{\blockstartMalayalam}{\blockfinishMalayalam}}
+\newcommand\printblockMandaic{\doprintmyblock{\blockstartMandaic}{\blockfinishMandaic}}
+\newcommand\printblockManichaean{\doprintmyblock{\blockstartManichaean}{\blockfinishManichaean}}
+\newcommand\printblockMarchen{\doprintmyblock{\blockstartMarchen}{\blockfinishMarchen}}
+\newcommand\printblockMasaramGondi{\doprintmyblock{\blockstartMasaramGondi}{\blockfinishMasaramGondi}}
+\newcommand\printblockMathematicalAlphanumericSymbols{\doprintmyblock{\blockstartMathematicalAlphanumericSymbols}{\blockfinishMathematicalAlphanumericSymbols}}
+\newcommand\printblockMathematicalOperators{\doprintmyblock{\blockstartMathematicalOperators}{\blockfinishMathematicalOperators}}
+\newcommand\printblockMayanNumerals{\doprintmyblock{\blockstartMayanNumerals}{\blockfinishMayanNumerals}}
+\newcommand\printblockMedefaidrin{\doprintmyblock{\blockstartMedefaidrin}{\blockfinishMedefaidrin}}
+\newcommand\printblockMeeteiMayek{\doprintmyblock{\blockstartMeeteiMayek}{\blockfinishMeeteiMayek}}
+\newcommand\printblockMeeteiMayekExtensions{\doprintmyblock{\blockstartMeeteiMayekExtensions}{\blockfinishMeeteiMayekExtensions}}
+\newcommand\printblockMendeKikakui{\doprintmyblock{\blockstartMendeKikakui}{\blockfinishMendeKikakui}}
+\newcommand\printblockMeroiticCursive{\doprintmyblock{\blockstartMeroiticCursive}{\blockfinishMeroiticCursive}}
+\newcommand\printblockMeroiticHieroglyphs{\doprintmyblock{\blockstartMeroiticHieroglyphs}{\blockfinishMeroiticHieroglyphs}}
+\newcommand\printblockMiao{\doprintmyblock{\blockstartMiao}{\blockfinishMiao}}
+\newcommand\printblockMiscellaneousMathematicalSymbolsA{\doprintmyblock{\blockstartMiscellaneousMathematicalSymbolsA}{\blockfinishMiscellaneousMathematicalSymbolsA}}
+\newcommand\printblockMiscellaneousMathematicalSymbolsB{\doprintmyblock{\blockstartMiscellaneousMathematicalSymbolsB}{\blockfinishMiscellaneousMathematicalSymbolsB}}
+\newcommand\printblockMiscellaneousSymbols{\doprintmyblock{\blockstartMiscellaneousSymbols}{\blockfinishMiscellaneousSymbols}}
+\newcommand\printblockMiscellaneousSymbolsandArrows{\doprintmyblock{\blockstartMiscellaneousSymbolsandArrows}{\blockfinishMiscellaneousSymbolsandArrows}}
+\newcommand\printblockMiscellaneousSymbolsandPictographs{\doprintmyblock{\blockstartMiscellaneousSymbolsandPictographs}{\blockfinishMiscellaneousSymbolsandPictographs}}
+\newcommand\printblockMiscellaneousTechnical{\doprintmyblock{\blockstartMiscellaneousTechnical}{\blockfinishMiscellaneousTechnical}}
+\newcommand\printblockModi{\doprintmyblock{\blockstartModi}{\blockfinishModi}}
+\newcommand\printblockModifierToneLetters{\doprintmyblock{\blockstartModifierToneLetters}{\blockfinishModifierToneLetters}}
+\newcommand\printblockMongolian{\doprintmyblock{\blockstartMongolian}{\blockfinishMongolian}}
+\newcommand\printblockMongolianSupplement{\doprintmyblock{\blockstartMongolianSupplement}{\blockfinishMongolianSupplement}}
+\newcommand\printblockMro{\doprintmyblock{\blockstartMro}{\blockfinishMro}}
+\newcommand\printblockMultani{\doprintmyblock{\blockstartMultani}{\blockfinishMultani}}
+\newcommand\printblockMusicalSymbols{\doprintmyblock{\blockstartMusicalSymbols}{\blockfinishMusicalSymbols}}
+\newcommand\printblockMyanmar{\doprintmyblock{\blockstartMyanmar}{\blockfinishMyanmar}}
+\newcommand\printblockMyanmarExtendedA{\doprintmyblock{\blockstartMyanmarExtendedA}{\blockfinishMyanmarExtendedA}}
+\newcommand\printblockMyanmarExtendedB{\doprintmyblock{\blockstartMyanmarExtendedB}{\blockfinishMyanmarExtendedB}}
+\newcommand\printblockNabataean{\doprintmyblock{\blockstartNabataean}{\blockfinishNabataean}}
+\newcommand\printblockNandinagari{\doprintmyblock{\blockstartNandinagari}{\blockfinishNandinagari}}
+\newcommand\printblockNewTaiLue{\doprintmyblock{\blockstartNewTaiLue}{\blockfinishNewTaiLue}}
+\newcommand\printblockNewa{\doprintmyblock{\blockstartNewa}{\blockfinishNewa}}
+\newcommand\printblockNKo{\doprintmyblock{\blockstartNKo}{\blockfinishNKo}}
+\newcommand\printblockNumberForms{\doprintmyblock{\blockstartNumberForms}{\blockfinishNumberForms}}
+\newcommand\printblockNushu{\doprintmyblock{\blockstartNushu}{\blockfinishNushu}}
+\newcommand\printblockNyiakengPuachueHmong{\doprintmyblock{\blockstartNyiakengPuachueHmong}{\blockfinishNyiakengPuachueHmong}}
+\newcommand\printblockOgham{\doprintmyblock{\blockstartOgham}{\blockfinishOgham}}
+\newcommand\printblockOlChiki{\doprintmyblock{\blockstartOlChiki}{\blockfinishOlChiki}}
+\newcommand\printblockOldHungarian{\doprintmyblock{\blockstartOldHungarian}{\blockfinishOldHungarian}}
+\newcommand\printblockOldItalic{\doprintmyblock{\blockstartOldItalic}{\blockfinishOldItalic}}
+\newcommand\printblockOldNorthArabian{\doprintmyblock{\blockstartOldNorthArabian}{\blockfinishOldNorthArabian}}
+\newcommand\printblockOldPermic{\doprintmyblock{\blockstartOldPermic}{\blockfinishOldPermic}}
+\newcommand\printblockOldPersian{\doprintmyblock{\blockstartOldPersian}{\blockfinishOldPersian}}
+\newcommand\printblockOldSogdian{\doprintmyblock{\blockstartOldSogdian}{\blockfinishOldSogdian}}
+\newcommand\printblockOldSouthArabian{\doprintmyblock{\blockstartOldSouthArabian}{\blockfinishOldSouthArabian}}
+\newcommand\printblockOldTurkic{\doprintmyblock{\blockstartOldTurkic}{\blockfinishOldTurkic}}
+\newcommand\printblockOpticalCharacterRecognition{\doprintmyblock{\blockstartOpticalCharacterRecognition}{\blockfinishOpticalCharacterRecognition}}
+\newcommand\printblockOriya{\doprintmyblock{\blockstartOriya}{\blockfinishOriya}}
+\newcommand\printblockOrnamentalDingbats{\doprintmyblock{\blockstartOrnamentalDingbats}{\blockfinishOrnamentalDingbats}}
+\newcommand\printblockOsage{\doprintmyblock{\blockstartOsage}{\blockfinishOsage}}
+\newcommand\printblockOsmanya{\doprintmyblock{\blockstartOsmanya}{\blockfinishOsmanya}}
+\newcommand\printblockOttomanSiyaqNumbers{\doprintmyblock{\blockstartOttomanSiyaqNumbers}{\blockfinishOttomanSiyaqNumbers}}
+\newcommand\printblockPahawhHmong{\doprintmyblock{\blockstartPahawhHmong}{\blockfinishPahawhHmong}}
+\newcommand\printblockPalmyrene{\doprintmyblock{\blockstartPalmyrene}{\blockfinishPalmyrene}}
+\newcommand\printblockPauCinHau{\doprintmyblock{\blockstartPauCinHau}{\blockfinishPauCinHau}}
+\newcommand\printblockPhagspa{\doprintmyblock{\blockstartPhagspa}{\blockfinishPhagspa}}
+\newcommand\printblockPhaistosDisc{\doprintmyblock{\blockstartPhaistosDisc}{\blockfinishPhaistosDisc}}
+\newcommand\printblockPhoenician{\doprintmyblock{\blockstartPhoenician}{\blockfinishPhoenician}}
+\newcommand\printblockPhoneticExtensions{\doprintmyblock{\blockstartPhoneticExtensions}{\blockfinishPhoneticExtensions}}
+\newcommand\printblockPhoneticExtensionsSupplement{\doprintmyblock{\blockstartPhoneticExtensionsSupplement}{\blockfinishPhoneticExtensionsSupplement}}
+\newcommand\printblockPlayingCards{\doprintmyblock{\blockstartPlayingCards}{\blockfinishPlayingCards}}
+\newcommand\printblockPrivateUseArea{\doprintmyblock{\blockstartPrivateUseArea}{\blockfinishPrivateUseArea}}
+\newcommand\printblockPsalterPahlavi{\doprintmyblock{\blockstartPsalterPahlavi}{\blockfinishPsalterPahlavi}}
+\newcommand\printblockRejang{\doprintmyblock{\blockstartRejang}{\blockfinishRejang}}
+\newcommand\printblockRumiNumeralSymbols{\doprintmyblock{\blockstartRumiNumeralSymbols}{\blockfinishRumiNumeralSymbols}}
+\newcommand\printblockRunic{\doprintmyblock{\blockstartRunic}{\blockfinishRunic}}
+\newcommand\printblockSamaritan{\doprintmyblock{\blockstartSamaritan}{\blockfinishSamaritan}}
+\newcommand\printblockSaurashtra{\doprintmyblock{\blockstartSaurashtra}{\blockfinishSaurashtra}}
+\newcommand\printblockSharada{\doprintmyblock{\blockstartSharada}{\blockfinishSharada}}
+\newcommand\printblockShavian{\doprintmyblock{\blockstartShavian}{\blockfinishShavian}}
+\newcommand\printblockShorthandFormatControls{\doprintmyblock{\blockstartShorthandFormatControls}{\blockfinishShorthandFormatControls}}
+\newcommand\printblockSiddham{\doprintmyblock{\blockstartSiddham}{\blockfinishSiddham}}
+\newcommand\printblockSinhala{\doprintmyblock{\blockstartSinhala}{\blockfinishSinhala}}
+\newcommand\printblockSinhalaArchaicNumbers{\doprintmyblock{\blockstartSinhalaArchaicNumbers}{\blockfinishSinhalaArchaicNumbers}}
+\newcommand\printblockSmallFormVariants{\doprintmyblock{\blockstartSmallFormVariants}{\blockfinishSmallFormVariants}}
+\newcommand\printblockSmallKanaExtension{\doprintmyblock{\blockstartSmallKanaExtension}{\blockfinishSmallKanaExtension}}
+\newcommand\printblockSogdian{\doprintmyblock{\blockstartSogdian}{\blockfinishSogdian}}
+\newcommand\printblockSoraSompeng{\doprintmyblock{\blockstartSoraSompeng}{\blockfinishSoraSompeng}}
+\newcommand\printblockSoyombo{\doprintmyblock{\blockstartSoyombo}{\blockfinishSoyombo}}
+\newcommand\printblockSpacingModifierLetters{\doprintmyblock{\blockstartSpacingModifierLetters}{\blockfinishSpacingModifierLetters}}
+\newcommand\printblockSpecials{\doprintmyblock{\blockstartSpecials}{\blockfinishSpecials}}
+\newcommand\printblockSundanese{\doprintmyblock{\blockstartSundanese}{\blockfinishSundanese}}
+\newcommand\printblockSundaneseSupplement{\doprintmyblock{\blockstartSundaneseSupplement}{\blockfinishSundaneseSupplement}}
+\newcommand\printblockSuperscriptsandSubscripts{\doprintmyblock{\blockstartSuperscriptsandSubscripts}{\blockfinishSuperscriptsandSubscripts}}
+\newcommand\printblockSupplementalArrowsA{\doprintmyblock{\blockstartSupplementalArrowsA}{\blockfinishSupplementalArrowsA}}
+\newcommand\printblockSupplementalArrowsB{\doprintmyblock{\blockstartSupplementalArrowsB}{\blockfinishSupplementalArrowsB}}
+\newcommand\printblockSupplementalArrowsC{\doprintmyblock{\blockstartSupplementalArrowsC}{\blockfinishSupplementalArrowsC}}
+\newcommand\printblockSupplementalMathematicalOperators{\doprintmyblock{\blockstartSupplementalMathematicalOperators}{\blockfinishSupplementalMathematicalOperators}}
+\newcommand\printblockSupplementalPunctuation{\doprintmyblock{\blockstartSupplementalPunctuation}{\blockfinishSupplementalPunctuation}}
+\newcommand\printblockSupplementalSymbolsandPictographs{\doprintmyblock{\blockstartSupplementalSymbolsandPictographs}{\blockfinishSupplementalSymbolsandPictographs}}
+\newcommand\printblockSupplementaryPrivateUseAreaA{\doprintmyblock{\blockstartSupplementaryPrivateUseAreaA}{\blockfinishSupplementaryPrivateUseAreaA}}
+\newcommand\printblockSupplementaryPrivateUseAreaB{\doprintmyblock{\blockstartSupplementaryPrivateUseAreaB}{\blockfinishSupplementaryPrivateUseAreaB}}
+\newcommand\printblockSuttonSignWriting{\doprintmyblock{\blockstartSuttonSignWriting}{\blockfinishSuttonSignWriting}}
+\newcommand\printblockSylotiNagri{\doprintmyblock{\blockstartSylotiNagri}{\blockfinishSylotiNagri}}
+\newcommand\printblockSymbolsandPictographsExtendedA{\doprintmyblock{\blockstartSymbolsandPictographsExtendedA}{\blockfinishSymbolsandPictographsExtendedA}}
+\newcommand\printblockSymbolsforLegacyComputing{\doprintmyblock{\blockstartSymbolsforLegacyComputing}{\blockfinishSymbolsforLegacyComputing}}
+\newcommand\printblockSyriac{\doprintmyblock{\blockstartSyriac}{\blockfinishSyriac}}
+\newcommand\printblockSyriacSupplement{\doprintmyblock{\blockstartSyriacSupplement}{\blockfinishSyriacSupplement}}
+\newcommand\printblockTagalog{\doprintmyblock{\blockstartTagalog}{\blockfinishTagalog}}
+\newcommand\printblockTagbanwa{\doprintmyblock{\blockstartTagbanwa}{\blockfinishTagbanwa}}
+\newcommand\printblockTags{\doprintmyblock{\blockstartTags}{\blockfinishTags}}
+\newcommand\printblockTaiLe{\doprintmyblock{\blockstartTaiLe}{\blockfinishTaiLe}}
+\newcommand\printblockTaiTham{\doprintmyblock{\blockstartTaiTham}{\blockfinishTaiTham}}
+\newcommand\printblockTaiViet{\doprintmyblock{\blockstartTaiViet}{\blockfinishTaiViet}}
+\newcommand\printblockTaiXuanJingSymbols{\doprintmyblock{\blockstartTaiXuanJingSymbols}{\blockfinishTaiXuanJingSymbols}}
+\newcommand\printblockTakri{\doprintmyblock{\blockstartTakri}{\blockfinishTakri}}
+\newcommand\printblockTamil{\doprintmyblock{\blockstartTamil}{\blockfinishTamil}}
+\newcommand\printblockTamilSupplement{\doprintmyblock{\blockstartTamilSupplement}{\blockfinishTamilSupplement}}
+\newcommand\printblockTangut{\doprintmyblock{\blockstartTangut}{\blockfinishTangut}}
+\newcommand\printblockTangutComponents{\doprintmyblock{\blockstartTangutComponents}{\blockfinishTangutComponents}}
+\newcommand\printblockTangutSupplement{\doprintmyblock{\blockstartTangutSupplement}{\blockfinishTangutSupplement}}
+\newcommand\printblockTelugu{\doprintmyblock{\blockstartTelugu}{\blockfinishTelugu}}
+\newcommand\printblockThaana{\doprintmyblock{\blockstartThaana}{\blockfinishThaana}}
+\newcommand\printblockThai{\doprintmyblock{\blockstartThai}{\blockfinishThai}}
+\newcommand\printblockTibetan{\doprintmyblock{\blockstartTibetan}{\blockfinishTibetan}}
+\newcommand\printblockTifinagh{\doprintmyblock{\blockstartTifinagh}{\blockfinishTifinagh}}
+\newcommand\printblockTirhuta{\doprintmyblock{\blockstartTirhuta}{\blockfinishTirhuta}}
+\newcommand\printblockTransportandMapSymbols{\doprintmyblock{\blockstartTransportandMapSymbols}{\blockfinishTransportandMapSymbols}}
+\newcommand\printblockUgaritic{\doprintmyblock{\blockstartUgaritic}{\blockfinishUgaritic}}
+\newcommand\printblockUnifiedCanadianAboriginalSyllabics{\doprintmyblock{\blockstartUnifiedCanadianAboriginalSyllabics}{\blockfinishUnifiedCanadianAboriginalSyllabics}}
+\newcommand\printblockUnifiedCanadianAboriginalSyllabicsExtended{\doprintmyblock{\blockstartUnifiedCanadianAboriginalSyllabicsExtended}{\blockfinishUnifiedCanadianAboriginalSyllabicsExtended}}
+\newcommand\printblockVai{\doprintmyblock{\blockstartVai}{\blockfinishVai}}
+\newcommand\printblockVariationSelectors{\doprintmyblock{\blockstartVariationSelectors}{\blockfinishVariationSelectors}}
+\newcommand\printblockVariationSelectorsSupplement{\doprintmyblock{\blockstartVariationSelectorsSupplement}{\blockfinishVariationSelectorsSupplement}}
+\newcommand\printblockVedicExtensions{\doprintmyblock{\blockstartVedicExtensions}{\blockfinishVedicExtensions}}
+\newcommand\printblockVerticalForms{\doprintmyblock{\blockstartVerticalForms}{\blockfinishVerticalForms}}
+\newcommand\printblockWancho{\doprintmyblock{\blockstartWancho}{\blockfinishWancho}}
+\newcommand\printblockWarangCiti{\doprintmyblock{\blockstartWarangCiti}{\blockfinishWarangCiti}}
+\newcommand\printblockYezidi{\doprintmyblock{\blockstartYezidi}{\blockfinishYezidi}}
+\newcommand\printblockYiRadicals{\doprintmyblock{\blockstartYiRadicals}{\blockfinishYiRadicals}}
+\newcommand\printblockYiSyllables{\doprintmyblock{\blockstartYiSyllables}{\blockfinishYiSyllables}}
+\newcommand\printblockYijingHexagramSymbols{\doprintmyblock{\blockstartYijingHexagramSymbols}{\blockfinishYijingHexagramSymbols}}
+\newcommand\printblockZanabazarSquare{\doprintmyblock{\blockstartZanabazarSquare}{\blockfinishZanabazarSquare}}
+
+\begin{document}
+
+%%%\renewcommand\myfilename{Blumen}
+%%%\renewcommand\myfont{\mypathname\myfilename\myext}
+%%%\newfontface\forn{\myfilename}[
+%%%  Path=\mypathname,
+%%%  Extension=\myext,
+%%%  UprightFont=*,
+%%%]
+%%%
+%%%{\forn
+%%%%A B C
+%%%%\iffontchar\font65\char65\fi
+%%%\doprintmyblock{65}{67}
+%%%}
+%%%
+%%\directlua{
+%%      myfont         = '\myfont'
+%%      }
+%%\doprintmyblock{65}{67}
+
+%\foreach \x in
+%%{Blumen}
+%%Bocartes-fritos
+%%{BabelStoneKhitanLargeGlyphs}
+%{BabelStoneKhitanSealGlyphs}
+%}
+{%
+%\newpage
+%%\renewcommand\myfilename{\x}
+%%\renewcommand\myfont{\mypathname\myfilename\myext}
+%%%\myfilename\ \par
+%%
+%%\newfontface\forn{\myfilename}[
+%%  Path=\mypathname,
+%%  Extension=\myext,
+%%  UprightFont=*,
+%%]
+%%{\forn
+%%%\directlua{
+%%%      myfont         = '\myfont'
+%%%%      tex.sprint(myfont)
+%%%      }
+%%\begin{multicols}{4}\noindent
+%%\doprintmyblock{57344}{160000}
+%%\end{multicols}
+%%%\myfont
+%%%\forn A B C
+%%}}
+
+\renewcommand\myfilename{Noto Serif-Regular}
+\renewcommand\myfont{\mypathname\myfilename\myext}
+%%%\myfilename\ \par
+%%
+\newfontface\forn{\myfilename}[
+  Path=\mypathname,
+  Extension=\myext,
+  UprightFont=*,
+]
+\forn
+%\huge\color{blue}
+%\begin{tabular}{cc}
+%\rotatebox{-90}{\symbol{61499}} &
+%\rotatebox{-90}{\symbol{61472}} \\
+%\rotatebox{-90}{\symbol{61502}} &
+%\rotatebox{-90}{\symbol{61482}} \\
+%\end{tabular}
+
+\begin{multicols}{6}\noindent
+  %\printblockBasicLatin
+  %\printblockPrivateUseArea
+  \printblockCyrillic
+  %\doprintmyblock{0}{127}
+\end{multicols}
+
+\newpage
+\begin{multicols}{6}\noindent
+  \printblockGreekandCoptic
+\end{multicols}
+
+\newpage
+\toggletrue{printastring}
+\printblockGreekandCoptic
+
+\bigskip
+\printblockCyrillic
+
+%\doprintmyblock{97}{97}
+
+%\newpage
+%\fcyrillic
+%\begin{multicols}{6}\noindent
+%\printblockCyrillic
+%\end{multicols}
+
+\end{document}
