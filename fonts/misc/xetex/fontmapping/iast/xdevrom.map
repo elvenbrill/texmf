@@ -1,109 +1,107 @@
-;   This file was created by <@elvendrim> using TECkitMappingEditorU v4.0.0.0
-;   Conversion Type = Unicode_to_from_Unicode
+; This file was created by <@elvenbrill> using TECkitMappingEditorU v4.0.0.0
+; Conversion Type = Unicode_to_from_Unicode
 
 LHSName                 "Unicode Devanagari"
 RHSName                 "Unicode IAST"
 LHSDescription          "Devanagari input method for Unicode Roman (IAST)"
 Version                 "1.0"
-Contact                 "elvendrim@gmail.com"
+Contact                 "elvenbrill@pm.me"
 
 pass(Unicode)
 
-; ligatures from Knuth's original CMR fonts
-U+002D U+002D           <>  U+2013  ; -- -> en dash
+; Ligatures from Knuth's original CMR fonts
+U+002D U+002D           <>  U+2013  ; --  -> en dash
 U+002D U+002D U+002D    <>  U+2014  ; --- -> em dash
+U+0027                  <>  U+2019  ; '   -> right single quote
+U+0027 U+0027           <>  U+201D  ; ''  -> right double quote
+U+0022                   >  U+201D  ; "   -> right double quote
+U+0060                  <>  U+2018  ; `   -> left single quote
+U+0060 U+0060           <>  U+201C  ; ``  -> left double quote
+U+0021 U+0060           <>  U+00A1  ; !`  -> inverted exclam
+U+003F U+0060           <>  U+00BF  ; ?`  -> inverted question
 
-U+0027          <>  U+2019  ; ' -> right single quote
-U+0027 U+0027   <>  U+201D  ; '' -> right double quote
-U+0022           >  U+201D  ; " -> right double quote
+; Additions supported in T1 encoding
+U+002C U+002C           <>  U+201E  ; ,,  -> DOUBLE LOW-9 QUOTATION MARK
+U+003C U+003C           <>  U+00AB  ; <<  -> LEFT POINTING GUILLEMET
+U+003E U+003E           <>  U+00BB  ; >>  -> RIGHT POINTING GUILLEMET
 
-U+0060          <>  U+2018  ; ` -> left single quote
-U+0060 U+0060   <>  U+201C  ; `` -> left double quote
-
-U+0021 U+0060   <>  U+00A1  ; !` -> inverted exclam
-U+003F U+0060   <>  U+00BF  ; ?` -> inverted question
-
-; additions supported in T1 encoding
-U+002C U+002C   <>  U+201E  ; ,, -> DOUBLE LOW-9 QUOTATION MARK
-U+003C U+003C   <>  U+00AB  ; << -> LEFT POINTING GUILLEMET
-U+003E U+003E   <>  U+00BB  ; >> -> RIGHT POINTING GUILLEMET
-
-U+0905<>U+0061;अ a
-U+0906<>U+0101;आ ā
-U+0907<>U+0069;इ i
-U+0908<>U+012B;ई ī
-U+0909<>U+0075;उ u
-U+090A<>U+016B;ऊ ū
-U+090F<>U+0065;ए e
-U+0910<>U+0061U+0069;ऐ ai
-U+0913<>U+006F;ओ o
-U+0914<>U+0061U+0075;औ au
-U+090B<>U+1E5B;ऋ ṛ
-U+0960<>U+1E5D;ॠ ṝ
-U+090C<>U+1E37;ऌ ḷ
-U+0961<>U+1E39;ॡ ḹ
-U+0905U+0902<>U+1E43;अं ṃ
-U+0905U+0903<>U+1E25;अः ḥ
+U+0905<>U+0061        ;अ a
+U+0906<>U+0101        ;आ ā
+U+0907<>U+0069        ;इ i
+U+0908<>U+012B        ;ई ī
+U+0909<>U+0075        ;उ u
+U+090A<>U+016B        ;ऊ ū
+U+090F<>U+0065        ;ए e
+U+0910<>U+0061U+0069  ;ऐ ai
+U+0913<>U+006F        ;ओ o
+U+0914<>U+0061U+0075  ;औ au
+U+090B<>U+1E5B        ;ऋ ṛ
+U+0960<>U+1E5D        ;ॠ ṝ
+U+090C<>U+1E37        ;ऌ ḷ
+U+0961<>U+1E39        ;ॡ ḹ
+U+0905U+0902<>U+1E43  ;अं ṃ
+U+0905U+0903<>U+1E25  ;अः ḥ
 U+0905U+0901<>U+006FU+0302;अँ ô
-U+0901<>U+0310;ँ ̐
-U+0964<>U+007C;। |
-U+0903<>U+1E25;ः ḥ
-U+0912<>U+006FU+0306;ऒ ŏ
-U+090E<>U+0065U+0306;ऎ ĕ
-U+0904<>U+0061U+0306;ऄ ă
-U+0965<>U+007CU+007C;॥ ||
-U+096F<>U+0039;९ 9
-U+096E<>U+0038;८ 8
-U+096D<>U+0037;७ 7
-U+096C<>U+0036;६ 6
-U+096B<>U+0035;५ 5
-U+096A<>U+0034;४ 4
-U+0969<>U+0033;३ 3
-U+0968<>U+0032;२ 2
-U+0967<>U+0031;१ 1
-U+0966<>U+0030;० 0
-U+0951<>U+030D;॑ ̍
-U+0952<>U+0331;॒ ̱
-U+0953<>U+0300;॓ ̀
-U+0954<>U+0301;॔ ́
-U+0900<>U+0352;ऀ ͒
-U+0902<>U+1E43;ं ṃ
-U+090D<>U+0065U+0302;ऍ ê
-U+0911<>U+006FU+0302;ऑ ô
-U+093D<>U+0027;ऽ '
-U+0915<>U+006BU+0061;क ka
-U+0916<>U+006BU+0068U+0061;ख kha
-U+0917<>U+0067U+0061;ग ga
-U+0918<>U+0067U+0068U+0061;घ gha
-U+0919<>U+1E45U+0061;ङ ṅa
-U+091A<>U+0063U+0061;च ca
-U+091B<>U+0063U+0068U+0061;छ cha
-U+091C<>U+006AU+0061;ज ja
-U+091D<>U+006AU+0068U+0061;झ jha
-U+091E<>U+00F1U+0061;ञ ña
-U+091F<>U+1E6DU+0061;ट ṭa
-U+0920<>U+1E6DU+0068U+0061;ठ ṭha
-U+0921<>U+1E0DU+0061;ड ḍa
-U+0922<>U+1E0DU+0068U+0061;ढ ḍha
-U+0923<>U+1E47U+0061;ण ṇa
-U+0924<>U+0074U+0061;त ta
-U+0925<>U+0074U+0068U+0061;थ tha
-U+0926<>U+0064U+0061;द da
-U+0927<>U+0064U+0068U+0061;ध dha
-U+0928<>U+006EU+0061;न na
-U+092A<>U+0070U+0061;प pa
-U+092B<>U+0070U+0068U+0061;फ pha
-U+092C<>U+0062U+0061;ब ba
-U+092D<>U+0062U+0068U+0061;भ bha
-U+092E<>U+006DU+0061;म ma
-U+092F<>U+0079U+0061;य ya
-U+0930<>U+0072U+0061;र ra
-U+0932<>U+006CU+0061;ल la
-U+0935<>U+0076U+0061;व va
-U+0936<>U+015BU+0061;श śa
-U+0937<>U+1E63U+0061;ष ṣa
-U+0938<>U+0073U+0061;स sa
-U+0939<>U+0068U+0061;ह ha
+U+0901<>U+0310        ;ँ ̐
+U+0964<>U+007C        ;। |
+U+0903<>U+1E25        ;ः ḥ
+U+0912<>U+006FU+0306  ;ऒ ŏ
+U+090E<>U+0065U+0306  ;ऎ ĕ
+U+0904<>U+0061U+0306  ;ऄ ă
+U+0965<>U+007CU+007C  ;॥ ||
+U+096F<>U+0039        ;९ 9
+U+096E<>U+0038        ;८ 8
+U+096D<>U+0037        ;७ 7
+U+096C<>U+0036        ;६ 6
+U+096B<>U+0035        ;५ 5
+U+096A<>U+0034        ;४ 4
+U+0969<>U+0033        ;३ 3
+U+0968<>U+0032        ;२ 2
+U+0967<>U+0031        ;१ 1
+U+0966<>U+0030        ;० 0
+U+0951<>U+030D        ;॑ ̍
+U+0952<>U+0331        ;॒ ̱
+U+0953<>U+0300        ;॓ ̀
+U+0954<>U+0301        ;॔ ́
+U+0900<>U+0352        ;ऀ ͒
+U+0902<>U+1E43        ;ं ṃ
+U+090D<>U+0065U+0302  ;ऍ ê
+U+0911<>U+006FU+0302  ;ऑ ô
+U+093D<>U+0027        ;ऽ '
+U+0915<>U+006BU+0061       ;क ka
+U+0916<>U+006BU+0068U+0061 ;ख kha
+U+0917<>U+0067U+0061       ;ग ga
+U+0918<>U+0067U+0068U+0061 ;घ gha
+U+0919<>U+1E45U+0061       ;ङ ṅa
+U+091A<>U+0063U+0061       ;च ca
+U+091B<>U+0063U+0068U+0061 ;छ cha
+U+091C<>U+006AU+0061       ;ज ja
+U+091D<>U+006AU+0068U+0061 ;झ jha
+U+091E<>U+00F1U+0061       ;ञ ña
+U+091F<>U+1E6DU+0061       ;ट ṭa
+U+0920<>U+1E6DU+0068U+0061 ;ठ ṭha
+U+0921<>U+1E0DU+0061       ;ड ḍa
+U+0922<>U+1E0DU+0068U+0061 ;ढ ḍha
+U+0923<>U+1E47U+0061       ;ण ṇa
+U+0924<>U+0074U+0061       ;त ta
+U+0925<>U+0074U+0068U+0061 ;थ tha
+U+0926<>U+0064U+0061       ;द da
+U+0927<>U+0064U+0068U+0061 ;ध dha
+U+0928<>U+006EU+0061       ;न na
+U+092A<>U+0070U+0061       ;प pa
+U+092B<>U+0070U+0068U+0061 ;फ pha
+U+092C<>U+0062U+0061       ;ब ba
+U+092D<>U+0062U+0068U+0061 ;भ bha
+U+092E<>U+006DU+0061       ;म ma
+U+092F<>U+0079U+0061       ;य ya
+U+0930<>U+0072U+0061       ;र ra
+U+0932<>U+006CU+0061       ;ल la
+U+0935<>U+0076U+0061       ;व va
+U+0936<>U+015BU+0061       ;श śa
+U+0937<>U+1E63U+0061       ;ष ṣa
+U+0938<>U+0073U+0061       ;स sa
+U+0939<>U+0068U+0061       ;ह ha
+
 U+0958<>U+0071U+0061;क़ qa
 U+0959<>U+006BU+035FU+0068U+0061;ख़ k͟ha
 U+095A<>U+0121U+0061;ग़ ġa
