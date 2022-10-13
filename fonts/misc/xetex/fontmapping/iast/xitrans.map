@@ -1,11 +1,11 @@
-;   This file was created by <@elvendrim> using TECkitMappingEditorU v4.0.0.0
-;   Conversion Type = Unicode_to_from_Unicode
+; This file was created by <@elvenbrill> using TECkitMappingEditorU v4.0.0.0
+; Conversion Type = Unicode_to_from_Unicode
 
 LHSName                 "ITRANS"
 RHSName                 "Unicode IAST"
 LHSDescription          "ITRANS input method for Unicode Roman (IAST)"
 Version                 "1.0"
-Contact                 "elvendrim@gmail.com"
+Contact                 "elvenbrill@pm.me"
 
 Define zwj U+200D     ; zero width joiner
 Define zwn U+200C     ; zero width nonjoiner
@@ -84,7 +84,7 @@ Define sacute   U+015B       ; ś
 Define sdot     U+1E63       ; ṣ
 Define ldot     U+1E37       ; ḷ
 Define lbelow   U+1E3B       ; ḻ
-Define cbindu   U+0310       ; ̐ 
+Define cbindu   U+0310       ; ̐
 Define visarga  U+1E25       ; ḥ
 Define avagraha U+0027       ; '
 
@@ -129,9 +129,9 @@ Define Sha sdot
 Define sa  s
 Define ha  h
 
-Define om   U+006F U+1E43 ; oṃ
-Define rla  U+1E37        ; ḷ
-Define ksha U+006B U+1E63 ; kṣ
+Define om   U+006F U+1E43  ; oṃ
+Define rla  U+1E37         ; ḷ
+Define ksha U+006B U+1E63  ; kṣ
 
 pass(Unicode)
 
