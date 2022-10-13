@@ -1,44 +1,30 @@
-EncodingName  "IAST-Devanagari Latin transliteration to Devanagari"
-DescriptiveName "IAST Latin transliteration to Devanagari"
-Version "1.1"
-Contact "https://github.com/wujastyk/xetex-devanagari"
+EncodingName          "IAST-Devanagari Latin transliteration to Devanagari"
+DescriptiveName       "IAST Latin transliteration to Devanagari"
+Version               "1.1"
+Contact               "https://github.com/wujastyk/xetex-devanagari"
 RegistrationAuthority "n/a"
-RegistrationName "RomDev"
+RegistrationName      "RomDev"
 Copyright "(c) 2021 Daniel Stender and Somdev Vasudev and Dominik Wujastyk"
 
-; changelog:
-;
-; 2021-11-01 added jihvamūlīya and upadhmanīya 
-;
-; 2021-10-19 added the changes from urukrama at Github, adding 
+; Changelog:
+; 2021-11-01 added jihvamūlīya and upadhmanīya
+; 2021-10-19 added the changes from urukrama at Github, adding
 ;  - the devanagari abbreviation sign and
-;  - initial aṃ, avagraha and anusvara and om symbol  
-; (https://github.com/somadeva/RomDev/pull/3).
-; 
+;  - initial aṃ, avagraha and anusvara and om symbol (https://github.com/somadeva/RomDev/pull/3)
 ; 2014-07-26 added the following CC license, with explicit permission from Somdev Vasudeva:
-; 
-;   This work is licensed under the Creative Commons Attribution 4.0 International License. 
+;   This work is licensed under the Creative Commons Attribution 4.0 International License.
 ;   To view a copy of this license, visit http://creativecommons.org/licenses/by/4.0/.
-; 
 ; v0.3. An improved version of my earlier TECkit map to dynamically convert UTF8 Romanized Sanskrit and Prakrit to Devanagari in XeLaTeX. This version fixes:
-; 
 ; —Roman capitals are converted.
 ; @@ -10,4 +15,4 @@ v0.3. An improved version of my earlier TECkit map to dynamically convert UTF8 R
-; 
-; —Support for Prakrit. You can use diaereses (gaa = gaä) and breves (only initial short e and o for now, e.g. ĕttha etc. ) and tildes to mark prosodically short nasalisations (e.g. tāĩ vs. tāiṃ or tāïṃ). 
-; 
+; —Support for Prakrit. You can use diaereses (gaa = gaä) and breves (only initial short e and o for now, e.g. ĕttha etc. ) and tildes to mark prosodically short nasalisations (e.g. tāĩ vs. tāiṃ or tāïṃ).
 ; Outstanding is support for Vedic accents.
-; 
-;
 ; The older file header from the version released on Somdev's
 ; <a =href"https://web.archive.org/web/20101017085126/http://sarasvatam.blogspot.com/2010/03/updated-teckit-romdev.html">Sārasvataṃ Cakṣuḥ</a> blog, March 2010:
-; An updated version of my earlier RomDev.map file that now supports Prakrit. You can use diaereses (gaa = gaä) and 
+; An updated version of my earlier RomDev.map file that now supports Prakrit. You can use diaereses (gaa = gaä) and
 ; breves (only initial short e and o for now, e.g. ĕttha etc. ) and tildes to mark prosodically short nasalisations (e.g. tāĩ vs. tāiṃ or tāïṃ).
 ; TECkit mapping for Unicode romanised Skt. to DN conversion
 ; v0.2 Updated March 23, 2010 9:53:03 PM EDT
-
-
-
 
 LHSName "UNICODE"
 RHSName "UNICODE"
@@ -51,11 +37,9 @@ UniClass [LTR] = ( U+0100 U+0101 'i' 'I' U+012A U+012B 'u' 'U' U+016A U+016B U+1
 
 UniClass [rMedVow] = ( U+0100 U+0101 'I' 'i' U+012A U+012B 'U' 'u' U+016A U+016B U+1E5A U+1E5B U+1E5C U+1E5D 'E' 'e' U+0114 U+0115 'Ai' 'ai' 'O' 'o' U+014E U+014F 'Au' 'au' U+1E36 U+1E37 U+1E38 U+1E39 U+1E42 U+1E43 U+1E24 U+1E25 )
 
-
 UniClass [rCons] = ( 'k' 'K' 'kh' 'Kh' 'G' 'g' 'Gh' 'gh' U+1E44 U+1E45 'C' 'c' 'Ch' 'ch' 'J' 'j' 'Jh' 'jh' 'Ñ' 'ñ' U+1E6C U+1E6D 'U+1E6C h' 'U+1E6D h' U+1E0C U+1E0D 'U+1E0C h' 'U+1E0D h' U+1E46 U+1E47 'T' 't' 'Th' 'th' 'D' 'd' 'Dh' 'dh' 'N' 'n' 'P' 'p' 'Ph' 'ph' 'B' 'b' 'Bh' 'bh' 'M' 'm' 'Y' 'y' 'R' 'r' 'L' 'l' 'V' 'v' U+015A U+015B U+1E62 U+1E63 'S' 's' 'H' 'h' )
 
-
-;initial vowels
+; Initial vowels
 
 'a' / ^[rCons] _ <> U+0905
 'a' / 'a'_ <> U+0905
@@ -99,7 +83,7 @@ U+014F / ^[rCons] _ <> U+0911
 'au' / ^[rCons] _ <> U+0914
 'Au' / ^[rCons] _ <> U+0914
 
-;non-final consonants
+;Non-final consonants
 
 'k' / _ [rMedVow] <> U+0915
 'K' / _ [rMedVow] <> U+0915
@@ -168,45 +152,43 @@ U+1E63 / _ [rMedVow] <> U+0937
 'H' / _ [rMedVow] <> U+0939
 'h' / _ [rMedVow] <> U+0939
 
-;medial vowels
+; Medial vowels
 
-U+0101 <> U+093E ;ā
-'i' <> U+093F ;i
-U+0129 <> U+093F U+0901; i + candrabindu
-U+012B <> U+0940 ;ī
-'u' <> U+0941 ;u
-U+016B <> U+0942 ;ū
-U+1E5B <> U+0943 ;ṛ
-U+1E5D <> U+0944 ;ṝ
-'e' <> U+0947 ;e
-'ai' <> U+0948 ;ai
-'o' <> U+094B ;o
-U+00F5 <> U+094B U+0901; o + candrabindu
-'au' <> U+094C ;au
-U+1E37 <> U+0962 ;ḷ
-U+1E39 <> U+0963 ;ḹ
-U+1E43 <> U+0902 ;ṃ
-U+1E25 <> U+0903 ;ḥ
+U+0101 <> U+093E        ; ā
+'i' <> U+093F           ; i
+U+0129 <> U+093F U+0901 ; i + candrabindu
+U+012B <> U+0940        ; ī
+'u' <> U+0941           ; u
+U+016B <> U+0942        ; ū
+U+1E5B <> U+0943        ; ṛ
+U+1E5D <> U+0944        ; ṝ
+'e' <> U+0947           ; e
+'ai' <> U+0948          ; ai
+'o' <> U+094B           ; o
+U+00F5 <> U+094B U+0901 ; o + candrabindu
+'au' <> U+094C          ; au
+U+1E37 <> U+0962        ; ḷ
+U+1E39 <> U+0963        ; ḹ
+U+1E43 <> U+0902        ; ṃ
+U+1E25 <> U+0903        ; ḥ
 
+U+0061 U+1E43 / [rMedVow] _ <> U+0905 U+0902   ; Vaṃ
+U+0061 U+1E43 / U+0061 _ <> U+0905 U+0902      ; aaṃ
+U+0061 U+1E25 / [rMedVow] _ <> U+0905 U+0903   ; Vaḥ
+U+0061 U+1E25 / U+0061 _ <> U+0905 U+0903      ; aaḥ
 
-U+0061 U+1E43 / [rMedVow] _ <> U+0905 U+0902 ;Vaṃ
-U+0061 U+1E43 / U+0061 _ <> U+0905 U+0902 ;aaṃ
-U+0061 U+1E25 / [rMedVow] _ <> U+0905 U+0903 ;Vaḥ
-U+0061 U+1E25 / U+0061 _ <> U+0905 U+0903 ;aaḥ
+U+0061 U+1E43 / ^[rMedVow] _ <> U+0902         ; aṃ
+U+0061 U+1E43 / ^U+0061 _ <> U+0902            ; aṃ
+U+0061 U+1E25 <> U+0903                        ; aḥ
 
-U+0061 U+1E43 / ^[rMedVow] _ <> U+0902 ;aṃ
-U+0061 U+1E43 / ^U+0061 _ <> U+0902 ;aṃ
-U+0061 U+1E25 <> U+0903 ;aḥ
-
-'A' U+1E43 <> U+0905 U+0902 ; ugly fix for initial aṃ
+'A' U+1E43 <> U+0905 U+0902                    ; ugly fix for initial aṃ
 
 ; 'ṃ
 U+0027 U+1E43 <> U+0902 U+093D
 U+2019 U+1E43 <> U+0902 U+093D
 U+02BC U+1E43 <> U+0902 U+093D
 
-
-;final cons
+; Final cons
 
 'k' <> U+0915 U+094D
 'kh' <> U+0916 U+094D
@@ -242,27 +224,25 @@ U+1E63 <> U+0937 U+094D
 's' <> U+0938 U+094D
 'h' <> U+0939 U+094D
 
-; upadhmanīya and jihvamūlīya
+; Upadhmanīya and jihvamūlīya
 
-'ḫ' <> U+1CF6   ; upadhmanīya
-'ẖ' <> U+1CF5   ; jihvamūlīya 
-
+'ḫ' <> U+1CF6       ; upadhmanīya
+'ẖ' <> U+1CF5       ; jihvamūlīya
 ;'ḫ' <> U+1CF6 094D ; upadhmanīya
-;'ẖ' <> U+1CF5 094D ; jihvamūlīya 
+;'ẖ' <> U+1CF5 094D ; jihvamūlīya
 
-
-;avagraha and daṇḍa
+;Avagraha and daṇḍa
 
 U+02BC <> U+093D ; ʼ styled apostrophe
 U+2019 <> U+093D ; ’ styled apostrophe
 U+0027 <> U+093D ;' unstyled apostrophe
-U+002F U+002F <> U+0965 ; // double daṇḍa 
+U+002F U+002F <> U+0965 ; // double daṇḍa
 U+002F <> U+0964 ; / single daṇḍa
 
-; abbreviation sign
+; Abbreviation sign
 U+00B0 <> U+0970
 
-;numerals
+; Numerals
 
 U+0030 <> U+0966 ; 0
 U+0031 <> U+0967 ; 1
