@@ -1,0 +1,561 @@
+\ProvidesPackage{babel-wylie}
+\babelprovide[import=bo]{wylie}
+
+% uppercase to lowercase
+\babelprehyphenation{wylie}{([KGCJTDNPBMWZYRLSHAIUEOĀĪŪṚṜḶḸḤṂṄÑṬḌṆVŚṢ])}{
+  string = {1|KGCJTDNPBMWZYRLSHAIUEOĀĪŪṚṜḶḸḤṂṄÑṬḌṆVŚṢ|kgcjtdnpbmwzyrlshaiueoāīūṛṝḷḹḥṃṅñṭḍṇvśṣ},
+}
+
+% whitespace: between syllables to "-" + no penalty for line breaks
+\babelprehyphenation{wylie}{([^../])|([^aiueo])}{
+  string = {1}-,
+  remove,
+  { insert, penalty = 0 },
+  string = {2},
+}
+
+\babelprehyphenation{wylie}{([^../])|([aiueo])}{
+  string = {1},
+  remove,
+  string = -{2},
+}
+
+% superscript + base + ( subscript +) vowel
+\babelprehyphenation{wylie}{rk([aiueo])}{
+  string = རྐ,
+  string = {1},
+}
+
+\babelprehyphenation{wylie}{rky([aiueo])}{
+  string = རྐྱ,
+  string = {1},
+}
+
+\babelprehyphenation{wylie}{rg([aiueo])}{
+  string = རྒ,
+  string = {1},
+}
+
+\babelprehyphenation{wylie}{rgy([aiueo])}{
+  string = རྒྱ,
+  string = {1},
+}
+
+\babelprehyphenation{wylie}{rgw([aiueo])}{
+  string = རྒྭ,
+  string = {1},
+}
+
+\babelprehyphenation{wylie}{rng([aiueo])}{
+  string = རྔ,
+  string = {1},
+}
+
+\babelprehyphenation{wylie}{rj([aiueo])}{
+  string = རྗ,
+  string = {1},
+}
+
+\babelprehyphenation{wylie}{rny([aiueo])}{
+  string = རྙ,
+  string = {1},
+}
+
+\babelprehyphenation{wylie}{rt([aiueo])}{
+  string = རྟ,
+  string = {1},
+}
+
+\babelprehyphenation{wylie}{rd([aiueo])}{
+  string = རྡ,
+  string = {1},
+}
+
+\babelprehyphenation{wylie}{rn([aiueo])}{
+  string = རྣ,
+  string = {1},
+}
+
+\babelprehyphenation{wylie}{rb([aiueo])}{
+  string = རྦ,
+  string = {1},
+}
+
+\babelprehyphenation{wylie}{rm([aiueo])}{
+  string = རྨ,
+  string = {1},
+}
+
+\babelprehyphenation{wylie}{rts([aiueo])}{
+  string = རྩ,
+  string = {1},
+}
+
+\babelprehyphenation{wylie}{rdz([aiueo])}{
+  string = རྫ,
+  string = {1},
+}
+
+\babelprehyphenation{wylie}{lk([aiueo])}{
+  string = ལྐ,
+  string = {1},
+}
+
+\babelprehyphenation{wylie}{lg([aiueo])}{
+  string = ལྒ,
+  string = {1},
+}
+
+\babelprehyphenation{wylie}{lng([aiueo])}{
+  string = ལྔ,
+  string = {1},
+}
+
+\babelprehyphenation{wylie}{lc([aiueo])}{
+  string = ལྕ,
+  string = {1},
+}
+
+\babelprehyphenation{wylie}{lj([aiueo])}{
+  string = ལྗ,
+  string = {1},
+}
+
+\babelprehyphenation{wylie}{lt([aiueo])}{
+  string = ལྟ,
+  string = {1},
+}
+
+\babelprehyphenation{wylie}{ld([aiueo])}{
+  string = ལྡ,
+  string = {1},
+}
+
+\babelprehyphenation{wylie}{lp([aiueo])}{
+  string = ལྤ,
+  string = {1},
+}
+
+\babelprehyphenation{wylie}{lb([aiueo])}{
+  string = ལྦ,
+  string = {1},
+}
+
+\babelprehyphenation{wylie}{lh([aiueo])}{
+  string = ལྷ,
+  string = {1},
+}
+
+\babelprehyphenation{wylie}{sk([aiueo])}{
+  string = སྐ,
+  string = {1},
+}
+
+\babelprehyphenation{wylie}{skr([aiueo])}{
+  string = སྐྲ,
+  string = {1},
+}
+
+\babelprehyphenation{wylie}{sky([aiueo])}{
+  string = སྐྱ,
+  string = {1},
+}
+
+\babelprehyphenation{wylie}{sg([aiueo])}{
+  string = སྒ,
+  string = {1},
+}
+
+\babelprehyphenation{wylie}{sgy([aiueo])}{
+  string = སྒྱ,
+  string = {1},
+}
+
+\babelprehyphenation{wylie}{sgr([aiueo])}{
+  string = སྒྲ,
+  string = {1},
+}
+
+\babelprehyphenation{wylie}{sng([aiueo])}{
+  string = སྔ,
+  string = {1},
+}
+
+\babelprehyphenation{wylie}{sny([aiueo])}{
+  string = སྙ,
+  string = {1},
+}
+
+\babelprehyphenation{wylie}{st([aiueo])}{
+  string = སྟ,
+  string = {1},
+}
+
+\babelprehyphenation{wylie}{sd([aiueo])}{
+  string = སྡ,
+  string = {1},
+}
+
+\babelprehyphenation{wylie}{sn([aiueo])}{
+  string = སྣ,
+  string = {1},
+}
+
+\babelprehyphenation{wylie}{snr([aiueo])}{
+  string = སྣྲ,
+  string = {1},
+}
+
+\babelprehyphenation{wylie}{sp([aiueo])}{
+  string = སྤ,
+  string = {1},
+}
+
+\babelprehyphenation{wylie}{spr([aiueo])}{
+  string = སྤྲ,
+  string = {1},
+}
+
+\babelprehyphenation{wylie}{spy([aiueo])}{
+  string = སྤྱ,
+  string = {1},
+}
+
+\babelprehyphenation{wylie}{sb([aiueo])}{
+  string = སྦ,
+  string = {1},
+}
+
+\babelprehyphenation{wylie}{sby([aiueo])}{
+  string = སྦྱ,
+  string = {1},
+}
+
+\babelprehyphenation{wylie}{sbr([aiueo])}{
+  string = སྦྲ,
+  string = {1},
+}
+
+\babelprehyphenation{wylie}{sm([aiueo])}{
+  string = སྨ,
+  string = {1},
+}
+
+\babelprehyphenation{wylie}{smr([aiueo])}{
+  string = སྨྲ,
+  string = {1},
+}
+
+\babelprehyphenation{wylie}{smy([aiueo])}{
+  string = སྨྱ,
+  string = {1},
+}
+
+\babelprehyphenation{wylie}{sts([aiueo])}{
+  string = སྩ,
+  string = {1},
+}
+
+\babelprehyphenation{wylie}{ky([aiueo])}{
+  string = ཀྱ,
+  string = {1},
+}
+
+\babelprehyphenation{wylie}{khy([aiueo])}{
+  string = ཁྱ,
+  string = {1},
+}
+
+\babelprehyphenation{wylie}{gy([aiueo])}{
+  string = གྱ,
+  string = {1},
+}
+
+\babelprehyphenation{wylie}{py([aiueo])}{
+  string = པྱ,
+  string = {1},
+}
+
+\babelprehyphenation{wylie}{phy([aiueo])}{
+  string = ཕྱ,
+  string = {1},
+}
+
+\babelprehyphenation{wylie}{phyw([aiueo])}{
+  string = ཕྱྭ,
+  string = {1},
+}
+
+\babelprehyphenation{wylie}{by([aiueo])}{
+  string = བྱ,
+  string = {1},
+}
+
+\babelprehyphenation{wylie}{my([aiueo])}{
+  string = མྱ,
+  string = {1},
+}
+
+\babelprehyphenation{wylie}{kr([aiueo])}{
+  string = ཀྲ,
+  string = {1},
+}
+
+\babelprehyphenation{wylie}{khr([aiueo])}{
+  string = ཁྲ,
+  string = {1},
+}
+
+\babelprehyphenation{wylie}{gr([aiueo])}{
+  string = གྲ,
+  string = {1},
+}
+
+\babelprehyphenation{wylie}{grw([aiueo])}{
+  string = གྲྭ,
+  string = {1},
+}
+
+\babelprehyphenation{wylie}{tr([aiueo])}{
+  string = ཏྲ,
+  string = {1},
+}
+
+\babelprehyphenation{wylie}{thr([aiueo])}{
+  string = ཐྲ,
+  string = {1},
+}
+
+\babelprehyphenation{wylie}{dr([aiueo])}{
+  string = དྲ,
+  string = {1},
+}
+
+\babelprehyphenation{wylie}{pr([aiueo])}{
+  string = པྲ,
+  string = {1},
+}
+
+\babelprehyphenation{wylie}{phr([aiueo])}{
+  string = ཕྲ,
+  string = {1},
+}
+
+\babelprehyphenation{wylie}{br([aiueo])}{
+  string = བྲ,
+  string = {1},
+}
+
+\babelprehyphenation{wylie}{mr([aiueo])}{
+  string = མྲ,
+  string = {1},
+}
+
+\babelprehyphenation{wylie}{shr([aiueo])}{
+  string = ཤྲ,
+  string = {1},
+}
+
+\babelprehyphenation{wylie}{sr([aiueo])}{
+  string = སྲ,
+  string = {1},
+}
+
+\babelprehyphenation{wylie}{hr([aiueo])}{
+  string = ཧྲ,
+  string = {1},
+}
+
+\babelprehyphenation{wylie}{kl([aiueo])}{
+  string = ཀླ,
+  string = {1},
+}
+
+\babelprehyphenation{wylie}{gl([aiueo])}{
+  string = གླ,
+  string = {1},
+}
+
+\babelprehyphenation{wylie}{bl([aiueo])}{
+  string = བླ,
+  string = {1},
+}
+
+\babelprehyphenation{wylie}{zl([aiueo])}{
+  string = ཟླ,
+  string = {1},
+}
+
+\babelprehyphenation{wylie}{rl([aiueo])}{
+  string = རླ,
+  string = {1},
+}
+
+\babelprehyphenation{wylie}{sl([aiueo])}{
+  string = སླ,
+  string = {1},
+}
+
+\babelprehyphenation{wylie}{kw([aiueo])}{
+  string = ཀྭ,
+  string = {1},
+}
+
+\babelprehyphenation{wylie}{khw([aiueo])}{
+  string = ཁྭ,
+  string = {1},
+}
+
+\babelprehyphenation{wylie}{gw([aiueo])}{
+  string = གྭ,
+  string = {1},
+}
+
+\babelprehyphenation{wylie}{cw([aiueo])}{
+  string = ཅྭ,
+  string = {1},
+}
+
+\babelprehyphenation{wylie}{nyw([aiueo])}{
+  string = ཉྭ,
+  string = {1},
+}
+
+\babelprehyphenation{wylie}{tw([aiueo])}{
+  string = ཏྭ,
+  string = {1},
+}
+
+\babelprehyphenation{wylie}{dw([aiueo])}{
+  string = དྭ,
+  string = {1},
+}
+
+\babelprehyphenation{wylie}{tsw([aiueo])}{
+  string = ཙྭ,
+  string = {1},
+}
+
+\babelprehyphenation{wylie}{tshw([aiueo])}{
+  string = ཚྭ,
+  string = {1},
+}
+
+\babelprehyphenation{wylie}{zhw([aiueo])}{
+  string = ཞྭ,
+  string = {1},
+}
+
+\babelprehyphenation{wylie}{zw([aiueo])}{
+  string = ཟྭ,
+  string = {1},
+}
+
+\babelprehyphenation{wylie}{rw([aiueo])}{
+  string = རྭ,
+  string = {1},
+}
+
+\babelprehyphenation{wylie}{lw([aiueo])}{
+  string = ལྭ,
+  string = {1},
+}
+
+\babelprehyphenation{wylie}{shw([aiueo])}{
+  string = ཤྭ,
+  string = {1},
+}
+
+\babelprehyphenation{wylie}{sw([aiueo])}{
+  string = སྭ,
+  string = {1},
+}
+
+\babelprehyphenation{wylie}{hw([aiueo])}{
+  string = ཧྭ,
+  string = {1},
+}
+
+\babelprehyphenation{wylie}{g[.]y([aiueo])}{
+  string = གཡ,
+  string = {1},
+}
+
+% prescript, postscripts and single base consonants
+\babelprehyphenation{wylie}{kh}{
+  string = ཁ,}
+
+\babelprehyphenation{wylie}{ng}{
+  string = ང,}
+
+\babelprehyphenation{wylie}{ch}{
+  string = ཆ,}
+
+\babelprehyphenation{wylie}{ny}{
+  string = ཉ,}
+
+\babelprehyphenation{wylie}{th}{
+  string = ཐ,}
+
+\babelprehyphenation{wylie}{ph}{
+  string = ཕ,}
+
+\babelprehyphenation{wylie}{tsh}{
+  string = ཚ,}
+
+\babelprehyphenation{wylie}{ts}{
+  string = ཙ,}
+
+\babelprehyphenation{wylie}{dz}{
+  string = ཛ,}
+
+\babelprehyphenation{wylie}{zh}{
+  string = ཞ,}
+
+\babelprehyphenation{wylie}{sh}{
+  string = ཤ,}
+
+\babelprehyphenation{wylie}{([kgcjtdnpbmwzyrlsh])}{
+  string = {1|kgcjtdnpbmwzyrlsh|ཀགཅཇཏདནཔབམཝཟཡརལསཧ},}
+
+\babelprehyphenation{wylie}{[’']}{
+  string = འ,}
+
+% initial vowels
+\babelprehyphenation{wylie}{[|-./]a}{
+  {}, { insert, penalty = 0 }, string = ཨ,}
+\babelprehyphenation{wylie}{[|-./]i}{
+  {}, { insert, penalty = 0 }, string = ཨི,}
+\babelprehyphenation{wylie}{[|-./]u}{
+  {}, { insert, penalty = 0 }, string = ཨུ,}
+
+\babelprehyphenation{wylie}{[|-./]e}{
+  {}, { insert, penalty = 0 }, string = ཨེ,}
+
+\babelprehyphenation{wylie}{[|-\./]o}{
+  {}, { insert, penalty = 0 }, string = ཨོ,}
+
+% syllabic vowls
+\babelprehyphenation{wylie}{a}{
+  remove,}
+
+\babelprehyphenation{wylie}{i}{
+  string = ི,}
+
+\babelprehyphenation{wylie}{u}{
+  string = ུ,}
+
+\babelprehyphenation{wylie}{e}{
+  string = ེ,}
+
+\babelprehyphenation{wylie}{o}{
+  string = ོ,}
+
+% numbers
+\babelprehyphenation{wylie}{([0123456789])}{
+  string = {1|0123456789|༠༡༢༣༤༥༦༧༨༩},}
+
+% punctuation
+\babelprehyphenation{wylie}{[./][./]}{string = ༎,}
+\babelprehyphenation{wylie}{[./]}{string = །,}
+\babelprehyphenation{wylie}{-}{string = ་,}
