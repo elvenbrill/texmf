@@ -13,11 +13,10 @@ babel>=3.52
 1. Include `\usepackage{babel-iast}` in the preamble of your LaTeX-file after
    loading babel,
 2. specify a font for the `iast` language, for instance
-   `\babelfont[iast]{rm}[Renderer=Harfbuzz]{DevanagariMT}`,
+   `\babelfont[iast]{rm}[Renderer=Harfbuzz]{Tiro Devanagari Sanskrit}`,
 3. switch on the `iast` language in your document with `\selectlanguage{iast}`
    or `\begin{otherlanguage}{iast} … \end{otherlanguage}`.
 
 ## Credits
 
-[@radardenker](https://github.com/radardenker/):
-https://github.com/radardenker/babel-iast
+[@radardenker](https://github.com/radardenker/): <https://github.com/radardenker/babel-iast>
