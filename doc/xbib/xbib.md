@@ -9,7 +9,7 @@ So this is a quick and dirty fix that will create a local bibliography by extrac
 
 ## Dependencies
 
-sed
+`sed`
 
 ## Usage
 

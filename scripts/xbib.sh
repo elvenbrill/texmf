@@ -1,5 +1,5 @@
 #!/bin/sh
-# Depencies: sed
+# Dependencies: sed
 # A shell script that extracts cited Bib(La)TeX entries from a global .bib-file
 # https://github.com/radardenker/xbib
 # Usage: modify variable "bibres", cd into working directory of master-tex-file
