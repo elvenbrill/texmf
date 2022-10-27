@@ -1,0 +1,55 @@
+\DeclareFieldFormat{url}{%
+  \ifhyperref
+  {\href{#1}{\textsc{url}}}
+  {\textsc{url: }\nolinkurl{#1}}}
+%
+% Buddhist Digital Resource Center
+\DeclareFieldFormat{eprint:tbrc}{%
+  \textsc{TBRC}\space
+  \ifhyperref
+  {\href{https://www.tbrc.org/\#!rid=#1}{\nolinkurl{#1}}}
+  {\nolinkurl{#1}}}
+%
+\DeclareFieldFormat{eprint:ark}{%
+  \ifhyperref
+  {\href{https://n2t.net/#1}{\textsc{url}}}
+  {\nolinkurl{#1}}}
+%
+\DeclareFieldFormat{eprint:archive}{%
+  % Internet Archive\addcolon\space
+  \ifhyperref
+  % {\href{http://archive.org/details/#1}{\nolinkurl{#1}}}
+  {\href{http://archive.org/details/#1}{{\small Internet Archive}}}
+  {\nolinkurl{#1}}}
+\DeclareFieldAlias{eprint:archive.org}{eprint:archive}
+\DeclareFieldAlias{eprint:Archive.org}{eprint:archive}
+%
+\DeclareFieldFormat{eprint:academia}{%
+  % Academia.edu\addcolon\space
+  \ifhyperref
+  {\href{http://www.academia.edu/#1}{{\small Academia.edu}}}
+  {\nolinkurl{#1}}}
+\DeclareFieldAlias{eprint:academia.edu}{eprint:academia}
+%
+\DeclareFieldFormat{eprint:dli}{%
+  % DLI\addcolon\space
+  \ifhyperref
+  {\href{http://www.dli.gov.in/cgi-bin/DBscripts/allmetainfo.cgi?barcode=#1/}{{\small Digital Library of India}}}
+  {\nolinkurl{#1}}}
+\DeclareFieldAlias{eprint:DLI}{eprint:dli}
+%
+\DeclareFieldFormat{eprint:jstor}{%
+  \ifhyperref
+  {\href{http://www.jstor.org/stable/#1}{{\small JSTOR}}}
+  {\nolinkurl{#1}}}
+%
+\DeclareFieldFormat{eprint:google}{%
+  \ifhyperref
+  {\href{http://books.google.com/books?id=#1}{{\small Google books}}}
+  {\nolinkurl{#1}}}
+%
+\DeclareFieldFormat{doi}{%
+  \ifhyperref
+  {\href{https://doi.org/#1}{\textsc{doi}}}
+  {\nolinkurl{#1}}}
+%
