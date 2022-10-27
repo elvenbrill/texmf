@@ -25,6 +25,25 @@ $pdflatex = "pdflatex -file-line-error -interaction=nonstopmode -shell-escape -s
 # converted to a PDF using `xdvipdfmx'.
 $xelatex = "xelatex -no-pdf -recorder -file-line-error -interaction=nonstopmode -shell-escape -synctex=1 %O %S";
 
+$lualatex = "lualatex %O %S --synctex=1 --interaction=nonstopmode --shell-escape";
+
+# Support for the nomencl package:
+add_cus_dep('nlo', 'nls', 0, 'makenlo2nls');
+sub makenlo2nls {
+  system("makeindex -s nomencl.ist -o \"$_[0].nls\" \"$_[0].nlo\"");
+}
+
+# Metapost rule from http://tex.stackexchange.com/questions/37134
+add_cus_dep('mp', '1', 0, 'mpost');
+sub mpost {
+  my $file = $_[0];
+  my ($name, $path) = fileparse($file);
+  pushd($path);
+  my $return = system "mpost $name";
+  popd();
+  return $return;
+}
+
 # A list of extensions for files that are generated during a LaTeX run and
 # that are read in by LaTeX in later runs, either directly or indirectly.
 # push @generated_exts, "synctex.gz";
