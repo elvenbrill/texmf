@@ -1,0 +1,46 @@
+% Style file for Purāṇa Books
+%
+% See https://tug.org/pracjourn/2005-3/asknelly/ for a nice statement of
+% the difference between .cls and .sty files.
+%
+% Here in purana.sty, I'm keeping the code that is not part of the core of
+% Purāṇa's design, including calls to other style files that might or might not
+% be included for different publications.
+
+\setdefaultlanguage[variant=british]{english}
+\setotherlanguage{sanskrit}
+
+% \setmainfont[Numbers=Lining,
+%   Extension   = .otf,
+%   UprightFont = *-regular,
+%   ItalicFont  = *-italic,
+%   BoldFont    = *-bold,
+%   BoldItalicFont = *-bolditalic]{devanagari}
+\setmainfont[Numbers=Lining]{Brill}
+
+\newfontfamily\sanskritfont[Script=Latin,
+  Scale=MatchLowercase]{Tiro Devanagari Sanskrit}
+
+\newfontfamily\devanagarifont[Script=Devanagari,
+  Mapping=xromdev,
+  Scale=MatchUppercase]{Tiro Devanagari Sanskrit}
+
+\newcommand{\dn}[1]{{\devanagarifont#1}}
+\newcommand{\sa}[1]{{\sanskritfont#1}}
+\newcommand{\largeshloka}[1]{{\raggedright \devanagarifont\ #1\par}}
+
+% Local generic author-facing macros:
+\newcommand{\st}{\textsuperscript{\textup{st}}\xspace}
+\newcommand{\nd}{\textsuperscript{\textup{nd}}\xspace}
+\newcommand{\rd}{\textsuperscript{\textup{rd}}\xspace}
+\renewcommand{\th}{\textsuperscript{\textup{th}}\xspace}
+
+\def\eg{\textit{e.g.,}\xspace}
+\def\ie{\textit{i.e.,}\xspace}
+\def\Eg{\textit{E.g.,}\xspace}
+\def\Ie{\textit{I.e.,}\xspace}
+\def\viz{\textit{viz.}\@\xspace}
+\def\etal{\textit{et~al.}\@\xspace}
+\def\etc{\textit{etc.}\@\xspace}
+
+\endinput
