@@ -1,0 +1,328 @@
+% \section{Biblatex settings for HSSA}
+% Don't need this at present:
+%    \begin{macrocode}
+% \usepackage[%
+% tools={manuscripts},
+% bibstyle={authoryear},
+% ]{biblatex-multiple-dm} % for biblatex-manuscripts-philology
+%    \end{macrocode}
+
+% \subsection{Load Biblatex}
+%    \begin{macrocode}
+\usepackage[%
+backend=biber, 
+%bibstyle=multiple-dm, % for biblatex-manuscripts-philology
+%citestyle=authoryear-comp,
+%
+% now oxref:
+style=oxyear,
+dashed=true,
+usetranslator=true,% see oxref documentation para 2.1.10
+%ibidtracker=constrict,
+%ibidpage=false,
+%pagetracker=page,
+%idemtracker=constrict,
+sorting=ynt, 
+%    \end{macrocode}
+% (on \verb|ynt|, see  
+%\href{https://cikitsa.blogspot.co.at/2017/07/biblatex-citations-and-bibliography.html}{Cikitsā
+% blog post}.)
+% \medskip
+%    \begin{macrocode}
+sortcites=true,
+backref=false,
+date=comp,
+datecirca=true,
+dateuncertain=true,
+bibencoding=auto,
+hyperref=auto,
+isbn=true,
+doi=true,
+language=auto,
+natbib=true,
+texencoding=auto,
+url=true,
+urldate=short,
+useprefix=true,
+%refsection=section,
+maxbibnames=10]{biblatex}
+%    \end{macrocode}
+% \subsection{Settings for oxyear}
+%    \begin{macrocode}
+\ExecuteBibliographyOptions[% for biblatex-oxyear
+book,
+mvbook,
+mvcollection,
+inbook,
+incollection,
+inreference,
+collection,
+reference,
+mvreference]{useeditor=true,usetranslator=true}
+%    \end{macrocode}
+%    \begin{macrocode}
+\AtBeginDocument{\assignrefcontextentries[]{*}}  
+%    \end{macrocode}
+% See 
+%\href{https://cikitsa.blogspot.co.at/2017/07/biblatex-citations-and-bibliography.html}{Cikitsā
+% blog post} for further explanation of the above.
+
+% \subsection{Bibliography punctuation}
+% Following sections 3.10 and 4.7.5 of the Bib\LaTeX\ manual, 
+% put the comma \emph{inside} the quotation marks of the title.
+%    \begin{macrocode}
+\DefineBibliographyExtras{british}{\DeclareQuotePunctuation{.,}}
+%    \end{macrocode}
+
+% \subsection{Bibliography sorting}
+
+% To avoid saying \verb|\newrefcontext[sorting=nyt]| before 
+% \verb|\printbibliography| in every 
+% document redefine \verb|\printbibliography| (from biblatex.sty):
+% \DescribeMacro{\printbibliography}
+%    \begin{macrocode}
+\renewrobustcmd*{\printbibliography}{%
+    \newrefcontext[sorting=nyt] % added this line
+    \begingroup
+    \delimcontext{bib}%
+    \edef\on@line{\on@line}%
+    \@ifnextchar[%]
+    {\blx@printbibliography}
+    {\blx@printbibliography[]}
+}
+%    \end{macrocode}
+
+% \subsection{Positioning of the notes}
+% To make bibtex notes print last, like addendums
+% from 
+%\href{http://tex.stackexchange.com/questions/138913/how-to-move-the-field-note-at-the-end-of-the-reference}{Stackexchange}.
+%    \begin{macrocode}
+\DeclareSourcemap{
+    \maps[datatype=bibtex]{
+        \map{
+            \step[fieldsource=note, final]
+            \step[fieldset=addendum, origfieldval, final]
+            \step[fieldset=note, null]
+        }
+    }
+}
+%    \end{macrocode}
+%
+% \subsection{csquotes}
+% The \verb|american| option with \verb|csquotes| gives double quotes 
+% in article titles in the bibliography.
+%    \begin{macrocode}
+\usepackage[style=american]{csquotes}
+%    \end{macrocode}
+
+% \subsection{Tweak the citation style}
+% Remove the ``p.'' and ``pp." from, for example, \verb|\volcite| :
+%    \begin{macrocode}
+\DefineBibliographyStrings{english}{%
+    page             = {},
+    pages            = {},
+    volume = {},
+    volumes = {},
+} 
+%    \end{macrocode}
+
+
+% \subsection{Unused code}
+% Biblatex documentation 4.11. and macros from biblatex.def
+% Enable hot URLs for PDFs at Archive.org and Academia.edu etc.
+
+% Make URLs smaller:
+%    \begin{macrocode}
+%\DeclareFieldFormat{url}{\textsc{url:} {\small \href{#1}{\nolinkurl{#1}}}}
+%\DeclareFieldFormat{doi}{\textsc{doi:} {\small \href{#1}{\nolinkurl{#1}}}}
+%    \end{macrocode}
+%
+% \subsection{URL formatting in the bibliography}
+% \subsubsection{Buddhist Digital Resource Center}
+%    \begin{macrocode}
+\DeclareFieldFormat{eprint:tbrc}{%
+    \textsc{TBRC}\space
+    \ifhyperref  
+    {\href{https://www.tbrc.org/\#!rid=#1}{\nolinkurl{#1}}}
+	{\nolinkurl{#1}}}
+%    \end{macrocode}
+%
+% \subsubsection{ARK}
+%    \begin{macrocode}
+\DeclareFieldFormat{eprint:ark}{%
+	\textsc{ark:}\space
+	\ifhyperref  
+	{\href{https://n2t.net/#1}{\nolinkurl{#1}}}
+	{\nolinkurl{#1}}}
+%    \end{macrocode}
+%
+% \subsubsection{Archive.org}
+%    \begin{macrocode}
+\DeclareFieldFormat{eprint:archive}{%
+	Internet Archive\addcolon\space
+	\ifhyperref
+	{\href{http://archive.org/details/#1}{\nolinkurl{#1}}}
+	{\nolinkurl{#1}}}
+\DeclareFieldAlias{eprint:archiveorg}{eprint:archive}
+%    \end{macrocode}
+% \subsubsection{Academia.edu}
+%    \begin{macrocode}
+\DeclareFieldFormat{eprint:academia}{%
+	Academia.edu\addcolon\space
+	\ifhyperref
+	{\href{http://www.academia.edu/#1}{\nolinkurl{#1}}}
+	{\nolinkurl{#1}}}
+\DeclareFieldAlias{eprint:academia.edu}{eprint:academia}
+%    \end{macrocode}
+% \subsubsection{Digital Library of India}
+%    \begin{macrocode}
+\DeclareFieldFormat{eprint:dli}{%
+	DLI\addcolon\space
+	\ifhyperref
+	{\href{http://www.dli.gov.in/cgi-bin/DBscripts/allmetainfo.cgi?barcode=#1/}{\nolinkurl{#1}}}
+	{\nolinkurl{#1}}}
+\DeclareFieldAlias{eprint:DLI}{eprint:dli}
+%    \end{macrocode}
+%
+% \subsubsection{JSTOR}
+%    \begin{macrocode}
+\DeclareFieldFormat{eprint:jstor}{%
+    \ifhyperref
+    {\href{http://www.jstor.org/stable/#1}{{\small JSTOR}}}
+    {\nolinkurl{#1}}}
+%    \end{macrocode}
+%
+% \subsubsection{Jainelibrary}
+%    \begin{macrocode}
+\DeclareFieldFormat{eprint:jainlibrary}{%
+	Jain eLibrary\addcolon\space
+	\ifhyperrefsloka
+	{\href{http://www.jainlibrary.org/book.php?file=#1}{\nolinkurl{#1}}}
+	{\nolinkurl{#1}}}
+%    \end{macrocode}
+%
+% \subsubsection{DOI}
+%    \begin{macrocode}
+\DeclareFieldFormat{doi}{%
+    \textsc{doi}\addcolon\space
+    \ifhyperref
+    {\href{https://doi.org/#1}{\nolinkurl{#1}}}
+    {\nolinkurl{#1}}}
+%    \end{macrocode}
+
+
+% \subsection{Tweaks to make the citation form:-  Author date: page}
+%    \begin{macrocode}
+\DeclareFieldFormat{postnote}{#1}
+\renewcommand{\postnotedelim}{:\,}
+\renewcommand{\nameyeardelim}{ }
+%    \end{macrocode}
+
+% \subsection{”Forthcoming” hacks}
+% Biblatex hacks to get pubstate (“forthcoming” etc.) behaving as it should
+% Biblatex manual 4.5.10
+%    \begin{macrocode}
+\DeclareLabeldate{%
+   	\field{date}
+   \field{year}
+   \field{pubstate}
+   \field{eventdate}
+   \field{origdate}
+   \field{urldate}
+   \literal{nodate}
+}
+%    \end{macrocode}
+
+% \subsection{Tighten up URL date}
+%    \begin{macrocode}
+\DeclareFieldFormat{urldate}{%
+    (on
+    \thefield{urlday}\addspace%
+    \mkbibmonth{\thefield{urlmonth}}\addspace%
+    \thefield{urlyear})\isdot}
+%    \end{macrocode}
+%
+% \subsection{Hyperlink magic}   
+% Some magic from “moewe” at 
+%\href{https://tex.stackexchange.com/questions/442749/biblatex-have-hyperref-links-point-to-the-shorthand-list}{Stackexchange}
+% that makes hyperlinks work from citations to a list of abbreviations.
+%    \begin{macrocode}
+\DeclareFieldFormat{shorthandwidth}{%
+    \bibhypertarget{shorthand:\thefield{entrykey}}
+    {#1}}
+
+\DeclareFieldFormat{bibhyperref}{%
+    \iffieldundef{shorthand}
+    {\bibhyperref{#1}}
+    {\bibhyperlink{shorthand:\thefield{entrykey}}{#1}}}
+%    \end{macrocode}
+
+\endinput % TeX stops reading here. 
+
+% \subsection{Old code now not needed}
+% Redefinition from  bbx/standard.bbx to stop pubstate printing after an 
+% addendum
+%    \begin{macrocode}
+%\renewbibmacro*{addendum+pubstate}{%
+%    \printfield{addendum}%
+%    %	\newunit\newblock
+%    %	\printfield{pubstate}
+%}
+%    \end{macrocode}
+%    \begin{macrocode}
+%\href{https://tex.stackexchange.com/questions/384172/bibliography-entries-with-pubstate-and-no-date-in-authortitle-style}{Stackexchange}.
+%    \begin{macrocode}
+%\renewbibmacro*{date}{%
+%    \ifboolexpr{ test {\iffieldundef{year}} and not test {\iffieldundef{pubstate}} }%
+%    {\printfield{pubstate}}%
+%    {\printdate}}
+%
+%\renewbibmacro*{addendum+pubstate}{%
+%    \printfield{addendum}%
+%    \newunit\newblock
+%    \iffieldundef{year}
+%    {}
+%    {\printfield{pubstate}}}
+%    \end{macrocode}
+% 
+% 
+%\href{https://tex.stackexchange.com/questions/61717/biblatex-strictly-identical-footnote-citations-following-each-other}{Stackexchange}.
+%    \begin{macrocode}
+%\renewbibmacro*{cite:ibid}{%
+%    \printtext{%
+%        \bibhyperlink{cite\csuse{cbx@lastcite@\thefield{entrykey}}}{%
+%            \ifloccit
+%            {\bibstring[\mkibid]{ibidem}%
+%                \global\toggletrue{cbx:loccit}}
+%            {\bibstring[\mkibid]{idem\thefield{gender}}}
+%        }}}
+%        
+%        \newbibmacro*{cite:ibid}{%
+%            \printtext{%
+%                \bibhyperlink{cite\csuse{cbx@lastcite@\thefield{entrykey}}}
+%                {\bibstring[\mkibid]{ibidem}}}%
+%            \ifloccit
+%            {\global\toggletrue{cbx:loccit}}
+%            {}}
+%        
+%\renewbibmacro*{cite:ibid}{%
+%    \printtext[bibhyperref]{%
+%    \ifloccit
+%    {\bibstring[\mkibid]{ibidem}%
+%          \global\booltrue{cbx:loccit}}
+%    {\bibstring[\mkibid]{idem\thefield{gender}}}}}
+
+% from 
+%\href{https://tex.stackexchange.com/questions/194575/altering-date-format-in-references}{Stackexchange
+% help}.
+%\DeclareFieldFormat{urldate}{%
+%    \thefield{urlday}\adddot\addspace%
+%    \mkbibmonth{\thefield{urlmonth}}\adddot\addspace%
+%    \thefield{urlyear}\isdot}
+%    \end{macrocode}
+
+% \subsection{More unused code}
+%    \begin{macrocode}
+%\usepackage{xurl} % get better formatting; no, leave it to biblatex
+%    \end{macrocode}
+
